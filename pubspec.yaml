@@ -22,3 +22,42 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+
+  fonts:
+  - family: Poppins
+    fonts:
+      - asset: assets/google_fonts/Poppins/Poppins-Black.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-BlackItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-Bold.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-BoldItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-ExtraBold.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-ExtraBoldItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-ExtraLight.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-ExtraLightItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-Italic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-Light.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-LightItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-Medium.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-MediumItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-Regular.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-SemiBold.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-SemiBoldItalic.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-Thin.ttf
+      - asset: assets/google_fonts/Poppins/Poppins-ThinItalic.ttf
+
+  - family: Roboto
+    fonts:
+      - asset: assets/google_fonts/Roboto/Roboto-Black.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-BlackItalic.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-Bold.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-BoldItalic.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-Italic.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-Light.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-LightItalic.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-Medium.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-MediumItalic.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-Regular.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-Thin.ttf
+      - asset: assets/google_fonts/Roboto/Roboto-ThinItalic.ttf
