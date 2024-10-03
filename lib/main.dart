@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:super_equipes/controllers/navegacao_controller.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
+import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/styles.dart';
 import 'package:super_equipes/pages/base_page.dart';
 
@@ -18,6 +21,15 @@ void main() async{
 
   ///Fazendo com que o app obtenha as fonts localmente e não por HTTP.
   GoogleFonts.config.allowRuntimeFetching = false;
+
+  ///Adicionando as licenças das fontes do Google
+  LicenseRegistry.addLicense(() async* {
+    final poppinsLicense  = await rootBundle.loadString('assets/google_fonts/Poppins/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts', 'poppins'], poppinsLicense);
+    final robotoLicense  = await rootBundle.loadString('assets/google_fonts/Roboto/LICENSE.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts', 'roboto'], robotoLicense);
+
+  });
 
   ///Injetando a denpedencia de forma global assim que o aplicativo inicializa.
   Get.put(TemaController());
@@ -47,6 +59,8 @@ class SuperEquipes extends StatelessWidget {
             themeMode: Get.find<TemaController>().tema,
             scaffoldMessengerKey: scaffoldMessengerKey,
             locale: const Locale('pt', 'BR'),
+            getPages: Pages.pages,
+            initialRoute: Routes.inicialRoute,
             home: const BasePage(),
             initialBinding: BindingsBuilder(() {
               ///Injetando a denpedencia de forma especifica apenas quando uma rota é chamada.
