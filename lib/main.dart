@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:super_equipes/controllers/navegacao_controller.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
 import 'package:super_equipes/core/theme/styles.dart';
-import 'package:super_equipes/pages/home_page.dart';
+import 'package:super_equipes/pages/base_page.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  await Hive.openBox('jogadores');
 
   ///Fazendo com que o app obtenha as fonts localmente e não por HTTP.
   GoogleFonts.config.allowRuntimeFetching = false;
@@ -42,7 +47,11 @@ class SuperEquipes extends StatelessWidget {
             themeMode: Get.find<TemaController>().tema,
             scaffoldMessengerKey: scaffoldMessengerKey,
             locale: const Locale('pt', 'BR'),
-            home: const HomePage()
+            home: const BasePage(),
+            initialBinding: BindingsBuilder(() {
+              ///Injetando a denpedencia de forma especifica apenas quando uma rota é chamada.
+              Get.put(NavegacaoController());
+            }),
           );
         });
       }
