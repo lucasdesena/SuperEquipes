@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/controllers/navegacao_controller.dart';
 import 'package:super_equipes/pages/inicio_page.dart';
+import 'package:super_equipes/pages/sorteio_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -12,8 +13,7 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
-  final NavegacaoController _navegacaoController =
-      Get.find<NavegacaoController>();
+  final NavegacaoController _navegacaoController = Get.find<NavegacaoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,7 @@ class _BasePageState extends State<BasePage> {
         controller: _navegacaoController.pageController,
         children: const [
           InicioPage(),
-          InicioPage(),
-          InicioPage(),
-          InicioPage(),
+          SorteioPage(),
         ],
       ),
       bottomNavigationBar: Obx(
@@ -59,14 +57,6 @@ class _BasePageState extends State<BasePage> {
                 BottomNavigationBarItem(
                   icon: BoxIcon(iconData:  Icons.sports_esports_outlined),
                   label: 'Sortear',
-                ),
-                BottomNavigationBarItem(
-                  icon: BoxIcon(iconData: Icons.bar_chart_rounded),
-                  label: 'Relatórios',
-                ),
-                BottomNavigationBarItem(
-                  icon: BoxIcon(iconData: Icons.person_rounded),
-                  label: 'Perfil',
                 ),
               ],
             ),

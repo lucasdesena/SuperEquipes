@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
+import 'package:super_equipes/core/theme/responsivity.dart';
 
 ///Classe de estilos e temas para aplicação.
 class Styles {
@@ -364,7 +364,7 @@ class Styles {
     ///Necessário para remover o efeito de clique que ultrapassa o shape do bottomSheet.
     bottomSheetTheme: const BottomSheetThemeData(clipBehavior: Clip.antiAlias),
     ///Necessário para alterar o tamanho do icone de voltar do appBar.
-    appBarTheme: AppBarTheme(iconTheme: IconThemeData(size: 22.sp)),
+    appBarTheme: AppBarTheme(iconTheme: IconThemeData(size: 22.s2)),
     ///Necessário para limitar o conteúdo de dentro do card ao tamanho do mesmo.
     cardTheme: const CardTheme(clipBehavior: Clip.hardEdge),
   );

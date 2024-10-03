@@ -1,8 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 import 'package:super_equipes/base/enum/snack_bar_type.dart';
-
+import 'package:super_equipes/core/theme/responsivity.dart';
 
 ///Classe responsável por criar as mensagens customizadas da aplicação, de acordo com o tipo da mesma.
 class BoxSnackBar extends StatelessWidget {
@@ -41,9 +40,8 @@ class BoxSnackBar extends StatelessWidget {
       duration: getDuration(),
       behavior: SnackBarBehavior.floating,
       padding: const EdgeInsets.all(0),
-      margin: EdgeInsets.all(14.sp),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.sp)),
-      // backgroundColor: getBackgroundColor(context),
+      margin: EdgeInsets.all(10.r),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
       showCloseIcon: true,
       content: IntrinsicHeight(
         child: Row(
@@ -54,33 +52,33 @@ class BoxSnackBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius:
-                      BorderRadius.horizontal(left: Radius.circular(14.sp)),
+                      BorderRadius.horizontal(left: Radius.circular(10.r)),
                   color: getColor(context),
                 ),
               ),
             ),
             Flexible(
               flex: 2,
-              child: SizedBox(width: 10.0.sp)
+              child: SizedBox(width: 15.0.r)
             ),
             Flexible(
               flex: 2,
               child: Icon(
                 getIcon(),
                 color: getColor(context),
-                size: 20.sp,
+                size: 23.s,
               ),
             ),
             Flexible(
               flex: 2,
               child: SizedBox(
-                width: 15.sp,
+                width: 15.r,
               ),
             ),
             Flexible(
               flex: 30,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 18.sp),
+                padding: EdgeInsets.symmetric(vertical: 15.r),
                 child: Text(message),
               ),
             ),

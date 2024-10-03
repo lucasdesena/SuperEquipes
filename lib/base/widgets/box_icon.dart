@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:super_equipes/core/theme/responsivity.dart';
 
 class BoxIcon extends StatelessWidget {
   final Color? color;
@@ -16,7 +16,7 @@ class BoxIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Icon(
-      size: size ?? 22.sp,
+      size: size ?? 22.s2,
       color: color,
       iconData,
     );

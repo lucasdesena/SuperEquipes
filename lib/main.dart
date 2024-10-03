@@ -9,7 +9,6 @@ import 'package:super_equipes/controllers/navegacao_controller.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
 import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/styles.dart';
-import 'package:super_equipes/pages/base_page.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -60,8 +59,7 @@ class SuperEquipes extends StatelessWidget {
             scaffoldMessengerKey: scaffoldMessengerKey,
             locale: const Locale('pt', 'BR'),
             getPages: Pages.pages,
-            initialRoute: Routes.inicialRoute,
-            home: const BasePage(),
+            initialRoute: Routes.baseRoute,
             initialBinding: BindingsBuilder(() {
               ///Injetando a denpedencia de forma especifica apenas quando uma rota é chamada.
               Get.put(NavegacaoController());
