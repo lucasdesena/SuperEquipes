@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/controllers/navegacao_controller.dart';
+import 'package:super_equipes/core/theme/ui_helpers/ui_helpers.dart';
 import 'package:super_equipes/pages/inicio_page.dart';
 import 'package:super_equipes/pages/sorteio_page.dart';
 
@@ -42,8 +43,8 @@ class _BasePageState extends State<BasePage> {
               ).createShader(bounds);
             },
             child: BottomNavigationBar(
-              // selectedLabelStyle: body3Style,
-              // unselectedLabelStyle: body3Style,
+              selectedLabelStyle: bodyStyle,
+              unselectedLabelStyle: bodyStyle,
               currentIndex: _navegacaoController.currentIndex,
               onTap: (index) {
                 _navegacaoController.navegar(index);

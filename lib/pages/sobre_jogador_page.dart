@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:super_equipes/base/widgets/box_alert_dialog.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
+import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/base/widgets/box_text_field.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
+import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_padding.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
@@ -11,22 +14,36 @@ import 'package:super_equipes/core/validators.dart';
 import 'package:super_equipes/models/enum/tipo_jogador.dart';
 import 'package:super_equipes/models/jogador.dart';
 
-class NovoJogadorPage extends StatefulWidget {
-  const NovoJogadorPage({super.key});
+class SobreJogadorPage extends StatefulWidget {
+  const SobreJogadorPage({super.key});
 
   @override
-  State<NovoJogadorPage> createState() => _NovoJogadorPageState();
+  State<SobreJogadorPage> createState() => _SobreJogadorPageState();
 }
 
-class _NovoJogadorPageState extends State<NovoJogadorPage> {
+class _SobreJogadorPageState extends State<SobreJogadorPage> {
   final JogadorController _jogadorController = Get.find<JogadorController>();
+
+  ///Auxiliar para edição das informações
+  late Jogador _jogadorEditado;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _ctrlNome = TextEditingController();
   final List<String> _qualidades = ['Peréba', 'Ruim', 'Normal', 'Bom', 'Craque'];
-  final List<bool> _selectedChips = [true, false, false, false, false];
+  final List<bool> _selectedChips = [false, false, false, false, false];
 
-  TipoJogador _tipoSelecionado = TipoJogador.linha;
-  int _qualidadeSelecionada = 1;
+  late TipoJogador _tipoSelecionado;
+  late int _qualidadeSelecionada;
+
+  @override
+  void initState() {
+    _jogadorEditado = _jogadorController.jogadorSelecionado!;
+    _ctrlNome.text = _jogadorEditado.nome;
+    _tipoSelecionado = _jogadorEditado.tipo;
+    _qualidadeSelecionada = _jogadorEditado.qualidade;
+    _selectedChips[_qualidadeSelecionada - 1] = true;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +52,13 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: UIText.title('Novo Jogador'),
+            title: UIText.title('Jogador'),
+            actions: [
+            IconButton(
+              onPressed: () async => await _showConfirmarExclusaoJogador(),
+              icon: const BoxIcon(iconData: Icons.delete),
+            )
+            ],
           ),
           body: UIPadding(
             useVerticalPadding: true,
@@ -97,31 +120,54 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> {
                       }, 
                     ),
                   ),
-                  
                 ],
               ),
             ),
           ),
           floatingActionButton: BoxFloatingActionButton(
             extended: true,
-            label: 'Novo jogador',
-            iconData: Icons.person_add_alt,
-            onPressed: () async => await _cadastrarJogador(),
+            label: 'Editar jogador',
+            iconData: Icons.edit_outlined,
+            onPressed: _editarJogador,
           ),
         );
       }
     );
   }
 
-  ///Método para cadastrar um novo jogador.
-  Future<void> _cadastrarJogador() async {
-    if(_formKey.currentState != null && _formKey.currentState!.validate()){
-      Jogador jogador = Jogador(nome: _ctrlNome.text, tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
+  Future<void> _showConfirmarExclusaoJogador() async {
+    await showDialog(
+      context: context,
+      builder: (context) => BoxAlertDialog(
+        title: 'Excluir jogador',
+        content: const Text('Você quer excluir este jogador?'),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel(context, 'Cancelar')),
+          TextButton(onPressed: () async => await _excluirJogador(), child: UIText.dialogConfirm('Excluir'))
+        ],
+      ),
+    );
+  }
 
-      await _jogadorController.registrarJogador(jogador).then((mensagemErro){
-        if(mounted){
+  ///Método para excluir um jogador existente.
+  Future<void> _excluirJogador() async {
+    await _jogadorController.excluirJogador().then((mensagemErro) async {
+      if (mounted) {
+        if (mensagemErro.isNotEmpty) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
+        Get.offAllNamed(Routes.baseRoute);
+      }
+    });
+  }
+
+  ///Método para confirmar edição do jogador
+  Future<void> _editarJogador() async {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      _jogadorEditado = Jogador(nome: _ctrlNome.text, tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
+
+      await _jogadorController.editarJogador(_jogadorEditado).then((mensagemErro) {
+        if (mounted) {
           if (mensagemErro.isNotEmpty) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
-          showSnackBar(context, const BoxSnackBar.successo(mensagem: 'Jogador salvo com sucesso.'));
+          showSnackBar(context, const BoxSnackBar.successo(mensagem: 'Informações alteradas com sucesso!'));
           Get.back();
         }
       });

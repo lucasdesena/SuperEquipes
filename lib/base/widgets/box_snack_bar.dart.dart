@@ -1,43 +1,43 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'package:flutter/material.dart';
-import 'package:super_equipes/base/enum/snack_bar_type.dart';
+import 'package:super_equipes/models/enum/tipo_snack_bar.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 
 ///Classe responsável por criar as mensagens customizadas da aplicação, de acordo com o tipo da mesma.
 class BoxSnackBar extends StatelessWidget {
-  final String message;
+  final String mensagem;
 
-  final SnackBarType type;
+  final TipoSnackBar tipo;
 
   const BoxSnackBar({
-    required this.message,
-    required this.type,
+    required this.mensagem,
+    required this.tipo,
   });
 
-  const BoxSnackBar.success({
-    required this.message,
-    this.type = SnackBarType.success,
+  const BoxSnackBar.successo({
+    required this.mensagem,
+    this.tipo = TipoSnackBar.sucesso,
   });
 
-  const BoxSnackBar.info({
-    required this.message,
-    this.type = SnackBarType.info,
+  const BoxSnackBar.informacao({
+    required this.mensagem,
+    this.tipo = TipoSnackBar.informacao,
   });
 
-  const BoxSnackBar.error({
-    required this.message,
-    this.type = SnackBarType.error,
+  const BoxSnackBar.aviso({
+    required this.mensagem,
+    this.tipo = TipoSnackBar.aviso,
   });
 
-  const BoxSnackBar.warning({
-    required this.message,
-    this.type = SnackBarType.warning,
+    const BoxSnackBar.erro({
+    required this.mensagem,
+    this.tipo = TipoSnackBar.erro,
   });
 
   @override
   SnackBar build(BuildContext context) {
     return SnackBar(
-      duration: getDuration(),
+      duration: duracao(),
       behavior: SnackBarBehavior.floating,
       padding: const EdgeInsets.all(0),
       margin: EdgeInsets.all(10.r),
@@ -53,7 +53,7 @@ class BoxSnackBar extends StatelessWidget {
                   shape: BoxShape.rectangle,
                   borderRadius:
                       BorderRadius.horizontal(left: Radius.circular(10.r)),
-                  color: getColor(context),
+                  color: cor(context),
                 ),
               ),
             ),
@@ -64,8 +64,8 @@ class BoxSnackBar extends StatelessWidget {
             Flexible(
               flex: 2,
               child: Icon(
-                getIcon(),
-                color: getColor(context),
+                icone(),
+                color: cor(context),
                 size: 23.s,
               ),
             ),
@@ -79,7 +79,7 @@ class BoxSnackBar extends StatelessWidget {
               flex: 30,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.r),
-                child: Text(message),
+                child: Text(mensagem),
               ),
             ),
           ],
@@ -90,41 +90,41 @@ class BoxSnackBar extends StatelessWidget {
 
   SnackBar getSnackBar(BuildContext context) => build(context);
 
-  Color getColor(BuildContext context) {
-    switch (type) {
-      case SnackBarType.success:
+  Color cor(BuildContext context) {
+    switch (tipo) {
+      case TipoSnackBar.sucesso:
         return Theme.of(context).colorScheme.primaryFixed;
-      case SnackBarType.info:
+      case TipoSnackBar.informacao:
         return Theme.of(context).colorScheme.secondary;
-      case SnackBarType.warning:
+      case TipoSnackBar.aviso:
         return Theme.of(context).colorScheme.tertiary;
-      case SnackBarType.error:
+      case TipoSnackBar.erro:
         return Theme.of(context).colorScheme.error;
     }
   }
 
-  Duration getDuration() {
-    switch (type) {
-      case SnackBarType.success:
+  Duration duracao() {
+    switch (tipo) {
+      case TipoSnackBar.sucesso:
         return const Duration(seconds: 5);
-      case SnackBarType.info:
+      case TipoSnackBar.informacao:
         return const Duration(seconds: 5);
-      case SnackBarType.warning:
+      case TipoSnackBar.aviso:
         return const Duration(seconds: 5);
-      case SnackBarType.error:
+      case TipoSnackBar.erro:
         return const Duration(seconds: 5);
     }
   }
 
-  IconData getIcon() {
-    switch (type) {
-      case SnackBarType.success:
+  IconData icone() {
+    switch (tipo) {
+      case TipoSnackBar.sucesso:
         return Icons.check_circle;
-      case SnackBarType.info:
+      case TipoSnackBar.informacao:
         return Icons.info;
-      case SnackBarType.warning:
+      case TipoSnackBar.aviso:
         return Icons.error;
-      case SnackBarType.error:
+      case TipoSnackBar.erro:
         return Icons.cancel;
     }
   }

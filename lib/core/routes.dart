@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:super_equipes/pages/base_page.dart';
 import 'package:super_equipes/pages/inicio_page.dart';
 import 'package:super_equipes/pages/novo_jogador_page.dart';
+import 'package:super_equipes/pages/sobre_jogador_page.dart';
 import 'package:super_equipes/pages/sorteio_page.dart';
 
 abstract class Pages {
@@ -19,6 +20,10 @@ abstract class Pages {
       page: () => const NovoJogadorPage(),
     ),
     GetPage(
+      name: Routes.sobreJogadorRoute,
+      page: () => const SobreJogadorPage(),
+    ),
+    GetPage(
       name: Routes.sorteioRoute,
       page: () => const SorteioPage(),
     ),
@@ -29,5 +34,6 @@ abstract class Routes {
   static const String baseRoute = '/base';
   static const String inicialRoute = '/inicial';
   static const String novoJogadorRoute = '/novoJogador';
+  static const String sobreJogadorRoute = '/sobreJogador';
   static const String sorteioRoute = '/sorteio';
 }

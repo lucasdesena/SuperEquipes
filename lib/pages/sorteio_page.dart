@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 
 class SorteioPage extends StatefulWidget {
   const SorteioPage({super.key});
@@ -14,7 +15,7 @@ class _SorteioPageState extends State<SorteioPage> {
       builder: (orientationContext, orientation) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Sorteio'),
+            title: UIText.title('Sorteio'),
           ),
         );
       }

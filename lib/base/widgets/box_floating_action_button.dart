@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
-import 'package:super_equipes/core/theme/responsivity.dart';
+import 'package:super_equipes/core/theme/ui_helpers/ui_helpers.dart';
 
 class BoxFloatingActionButton extends StatelessWidget {
   final void Function()? onPressed;
@@ -28,7 +28,7 @@ class BoxFloatingActionButton extends StatelessWidget {
           onPressed: onPressed,
           label: Text(
             label,
-            // style: title4Style,
+            style: fabStyle,
           ),
           icon: BoxIcon(iconData: iconData),
         ),

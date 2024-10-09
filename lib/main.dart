@@ -5,10 +5,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/controllers/navegacao_controller.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
 import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/styles.dart';
+import 'package:super_equipes/models/enum/tipo_jogador.dart';
+import 'package:super_equipes/models/jogador.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -16,12 +19,18 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-  await Hive.openBox('jogadores');
+
+  ///Registrando os adaptadores de objeto para o hive.
+  Hive.registerAdapter(JogadorAdapter());
+  Hive.registerAdapter(TipoJogadorAdapter());
+
+  ///Criando a tabela.
+  await Hive.openBox<Jogador>('jogadores');
 
   ///Fazendo com que o app obtenha as fonts localmente e não por HTTP.
   GoogleFonts.config.allowRuntimeFetching = false;
 
-  ///Adicionando as licenças das fontes do Google
+  ///Adicionando as licenças das fontes do Google.
   LicenseRegistry.addLicense(() async* {
     final poppinsLicense  = await rootBundle.loadString('assets/google_fonts/Poppins/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts', 'poppins'], poppinsLicense);
@@ -63,6 +72,7 @@ class SuperEquipes extends StatelessWidget {
             initialBinding: BindingsBuilder(() {
               ///Injetando a denpedencia de forma especifica apenas quando uma rota é chamada.
               Get.put(NavegacaoController());
+              Get.put(JogadorController());
             }),
           );
         });

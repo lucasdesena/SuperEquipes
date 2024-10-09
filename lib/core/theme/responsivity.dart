@@ -9,17 +9,17 @@ const double mockupHeight = 640.0;
 
 ///Classe de responsividade da aplicação.
 extension ThemeDataExtension on ThemeData {
-  double escalaOrientadaAltura(double size) => Device.orientation == Orientation.portrait ? size.h : size.w;
-  double escalaOrientadaLargura(double size) => Device.orientation == Orientation.portrait ? size.w : size.h;
-  double get columnSize => Device.orientation == Orientation.portrait ? (100 / totalColumns).w : (100 / totalColumns).h;
-  double get rowSize => Device.orientation == Orientation.portrait ? (100 / totalRows).h : (100 / totalRows).w;
-  double get maxWidth => Device.orientation == Orientation.portrait ? 100.0.w : 100.0.h;
-  double get maxHeight => Device.orientation == Orientation.portrait ? 100.0.h : 100.0.w;
+  double escalaOrientadaAltura(double size) => size.h;
+  double escalaOrientadaLargura(double size) => size.w;
+  double get columnSize => (100 / totalColumns).w;
+  double get rowSize => (100 / totalRows).h;
+  double get maxWidth => 100.0.w;
+  double get maxHeight => 100.0.h;
 }
 
 ///Extensão de tamanho criada para o tipo `num`.
 extension SizerExt on num {
-  ///s = scale (aumentar/diminuir proporcionalmente a largura da tela aplicando o fator de proporcao quando o dispositivo for tablet).
+  /// s = scale (ajusta com base no fator de proporção para dispositivos tablets).
   double get s => this * fator(0);
 
   double get s1 => this * fator(1);
@@ -32,46 +32,41 @@ extension SizerExt on num {
 
   double get s5 => this * fator(5);
 
-  ///r = resize (aumentar/diminuir proporcionalmente a largura da tela).
-  double get r => this * (Device.width / mockupWidth);
+  /// r = resize (ajusta com base na proporção da largura da tela).
+  double get r => this * (isPortrait ? Device.width / mockupWidth : Device.height / mockupHeight);
 }
 
-///Retorna o dispositivo usado pelo usuario.
+///Retorna o dispositivo usado pelo usuário.
+///Quando estamos em modo paisagem (landscape), a largura se torna a altura, então a validação é baseada
+///na altura quando o dispositivo está deitado. Geralmente, tablets têm uma altura maior que 430.
 ScreenType get device {
+  final double screenSize = isPortrait ? Device.width : Device.height;
   if (Platform.isAndroid || Platform.isIOS) {
-    if (Device.width < 720) {
-      return ScreenType.mobile;
-    } else {
-      return ScreenType.tablet;
-    }
-  } else {
-    return Device.screenType;
+    return screenSize < 430 ? ScreenType.mobile : ScreenType.tablet;
   }
+  return Device.screenType;
 }
 
 ///Método que calcula o fator de escala baseado em um multiplicador.
-///* `multiplicador` - Valor inteiro que influencia o cálculo do limite de largura
 double fator(int multiplicador) {
-  var limite = 500 + (500 * 0.1 * multiplicador);
+  const int limiteBase = 500;
+  double limite = limiteBase + (limiteBase * 0.1 * multiplicador);
 
   if (device == ScreenType.tablet) {
-    return ((Device.width <= limite ? Device.width : limite) / mockupWidth);
-  } else {
-    return (Device.width / mockupWidth);
+    double screenLimit = isPortrait ? Device.width : Device.height;
+    return (screenLimit <= limite ? screenLimit : limite) / mockupWidth;
   }
+  return (isPortrait ? Device.width : Device.height) / mockupWidth;
 }
 
-///Método que calcula a quantidade de itens por linha baseado na orientação e tipo do dispositivo e do tipo passado.
-///* `context` - Contexto em que o método será chamado
-///* `tipo` - Número inteiro que identifica qual caso irá retornar
-int getCrossAxisCount(context, {int tipo = 1}) {
-  return switch(tipo){
-    1 => isMobile ? MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 3 : 4,
-    2 => MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 2,
-    _ => isMobile ? MediaQuery.of(context).orientation == Orientation.landscape ? 4 : 3 : 4,
-  };
+///Método que calcula a quantidade de itens por linha baseado na orientação e tipo do dispositivo.
+int getCrossAxisCount({int tipo = 1}) {
+  final quantidadeBase = (isMobile && isPortrait) ? 3 : 4;
+  return tipo == 2 ? (isPortrait ? 2 : 4) : quantidadeBase;
 }
 
-///Como estamos em modo paisagem (landscape), a largura se torna a altura, então a validação é baseada
-///na altura quando o dispositivo está deitado. Geralmente, tablets têm uma altura maior que 400.
-bool get isMobile => device == ScreenType.mobile && Device.width <= 430; 
+///Checa se é um celular
+bool get isMobile => device == ScreenType.mobile;
+
+///Checa se a tela está na orientação portrait (retrato).
+bool get isPortrait => Device.orientation == Orientation.portrait;
