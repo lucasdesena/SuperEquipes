@@ -9,6 +9,7 @@ import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 import 'package:super_equipes/models/jogador.dart';
+import 'package:super_equipes/pages/widgets/box_card_jogador.dart';
 
 class InicioPage extends StatefulWidget {
   const InicioPage({super.key});
@@ -49,31 +50,12 @@ class _InicioPageState extends State<InicioPage> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: getCrossAxisCount(tipo: 2)),
               itemBuilder: (context, index) {
                 final Jogador jogador = _jogadorController.jogadores[index];
-                return Card(
-                  child: InkWell(
+                return  InkWell(
                     onTap: () {
                       _jogadorController.selecionarJogador(jogador);
                       Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
                     },
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () async {
-                                _jogadorController.selecionarJogador(jogador);
-                                await _excluirJogador();
-                              }, 
-                              icon: const BoxIcon(iconData: Icons.delete),
-                            ),
-                          ],
-                        ),
-                        UIText.body(jogador.nome),
-                        UIText.body('${jogador.qualidade}'),
-                      ],
-                    ),
-                  ),
+                  child: BoxCardJogador(nome: jogador.nome, qualidade: jogador.qualidade, tipoJogador: jogador.tipo),
                 );
               },
             );

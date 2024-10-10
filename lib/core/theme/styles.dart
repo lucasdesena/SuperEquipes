@@ -17,7 +17,7 @@ class Styles {
     systemNavigationBarIconBrightness: _temaController.isModoEscuro.value ? Brightness.light : Brightness.dark,
   );
 
-   static ColorScheme lightScheme() {
+  static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
       primary: Color(0xff39693c),
@@ -368,4 +368,8 @@ class Styles {
     ///Necessário para limitar o conteúdo de dentro do card ao tamanho do mesmo.
     cardTheme: const CardTheme(clipBehavior: Clip.hardEdge),
   );
+}
+
+extension ColorSchemeExtension on ColorScheme {
+  Color get customColor => const Color(0xff493D0E);
 }

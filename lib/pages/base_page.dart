@@ -46,9 +46,7 @@ class _BasePageState extends State<BasePage> {
               selectedLabelStyle: bodyStyle,
               unselectedLabelStyle: bodyStyle,
               currentIndex: _navegacaoController.currentIndex,
-              onTap: (index) {
-                _navegacaoController.navegar(index);
-              },
+              onTap: (index) => _navegacaoController.navegar(index),
               type: BottomNavigationBarType.fixed,
               items: const [
                 BottomNavigationBarItem(

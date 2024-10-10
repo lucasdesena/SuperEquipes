@@ -9,7 +9,5 @@ class TemaController extends GetxController {
   ThemeMode get tema => isModoEscuro.value ? ThemeMode.dark : ThemeMode.light;
 
   ///Método que altera entre os temas `claro` e `escuro`.
-  void alterarTema() {
-    isModoEscuro.value = !isModoEscuro.value;
-  }
+  void alterarTema() => isModoEscuro.value = !isModoEscuro.value;
 }

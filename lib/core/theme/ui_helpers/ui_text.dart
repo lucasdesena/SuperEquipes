@@ -18,7 +18,10 @@ class UIText extends StatelessWidget {
   UIText.dialogConfirm(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogConfirmStyle;
 
   UIText.dialogCancel(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogCancelStyle(context!);
-  UIText.estatistica(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyle(context!);
+  UIText.nomeJogador (this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyle(context!);
+  UIText.estatistica (this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyle(context!);
+  UIText.nomeJogadorMinor(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyleMinor(context!);
+  UIText.estatisticaMinor(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyleMinor(context!);
   UIText.hint(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = hintStyle(context!);
   UIText.error(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = errorStyle(context!);
 
@@ -28,7 +31,7 @@ class UIText extends StatelessWidget {
       text,
       style: style,
       overflow: textOverflow ?? TextOverflow.ellipsis,
-      maxLines: maxLines ?? 1,  
+      maxLines: maxLines ?? 1,
       textAlign: textAlign,
     );
   }

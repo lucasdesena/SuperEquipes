@@ -11,6 +11,9 @@ TextStyle get dialogTitleStyle => GoogleFonts.poppins(fontSize: 15.s2, fontWeigh
 TextStyle get dialogConfirmStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.w600, decoration: TextDecoration.none);
 
 TextStyle dialogCancelStyle(BuildContext context) => GoogleFonts.roboto( fontSize: 12.s2, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.error, decoration: TextDecoration.none);
-TextStyle estatisticaStyle(BuildContext context) => GoogleFonts.roboto(fontSize: 18.s2, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondaryContainer, decoration: TextDecoration.none);
+TextStyle nomeJogadorStyle(BuildContext context) => GoogleFonts.roboto(fontSize: 20.s2, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.customColor, decoration: TextDecoration.none);
+TextStyle estatisticaStyle(BuildContext context) => GoogleFonts.roboto(fontSize: 19.s2, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.customColor, decoration: TextDecoration.none);
+TextStyle nomeJogadorStyleMinor(BuildContext context) => GoogleFonts.roboto(fontSize: 10.5.s2, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.customColor, decoration: TextDecoration.none);
+TextStyle estatisticaStyleMinor(BuildContext context) => GoogleFonts.roboto(fontSize: 10.s2, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.customColor, decoration: TextDecoration.none);
 TextStyle hintStyle(BuildContext context) => GoogleFonts.roboto(fontSize: 14.s1, fontWeight: FontWeight.w300, color: Theme.of(context).colorScheme.onSurfaceVariant, decoration: TextDecoration.none);
 TextStyle errorStyle(BuildContext context) => GoogleFonts.roboto(fontSize: 11.s1, fontWeight: FontWeight.normal, color: Theme.of(context).colorScheme.error, decoration: TextDecoration.none);
