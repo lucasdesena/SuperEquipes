@@ -24,14 +24,14 @@ class BoxCardJogador extends StatelessWidget {
         children: [
           tipoJogador == TipoJogador.goleiro ? Image.asset('assets/images/card_goleiro.png') : Image.asset('assets/images/card_jogador.png'),
           Positioned(
-            bottom: 140 * 0.5,
-          child: UIText.nomeJogadorMinor(
+            bottom: 69,
+            child: UIText.nomeJogadorMinor(
               context,
               nome.length > 11 ? '${nome.substring(0, 11)}...' : nome,
             ),
           ),
           Positioned(
-            bottom: 42 * 0.5,
+            bottom: 21,
             child: Column(
               children: [
                 Row(

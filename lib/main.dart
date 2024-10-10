@@ -74,6 +74,12 @@ class SuperEquipes extends StatelessWidget {
               Get.put(NavegacaoController());
               Get.put(JogadorController());
             }),
+            builder: (_, child) {
+              precacheImage(const AssetImage('assets/images/card_goleiro.png'), context);
+              precacheImage(const AssetImage('assets/images/card_jogador.png'), context);
+
+              return child ?? const SizedBox.shrink();
+            },
           );
         });
       }

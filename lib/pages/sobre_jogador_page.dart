@@ -13,7 +13,7 @@ import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 import 'package:super_equipes/core/validators.dart';
 import 'package:super_equipes/models/enum/tipo_jogador.dart';
 import 'package:super_equipes/models/jogador.dart';
-import 'package:super_equipes/pages/widgets/box_card_jogador.dart';
+import 'package:super_equipes/pages/widgets/box_card_jogador_animacao.dart';
 
 class SobreJogadorPage extends StatefulWidget {
   const SobreJogadorPage({super.key});
@@ -22,7 +22,7 @@ class SobreJogadorPage extends StatefulWidget {
   State<SobreJogadorPage> createState() => _SobreJogadorPageState();
 }
 
-class _SobreJogadorPageState extends State<SobreJogadorPage> {
+class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerProviderStateMixin {
   final JogadorController _jogadorController = Get.find<JogadorController>();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -31,15 +31,29 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
   final List<bool> _selectedChips = [false, false, false, false, false];
 
   late TipoJogador _tipoSelecionado;
+  late int _qualidadeAnterior;
   late int _qualidadeSelecionada;
+
+  late AnimationController _controllerAnimacao;
+  late Animation<int> _qualidadeAnimada;
 
   @override
   void initState() {
+    super.initState();
+    
     _ctrlNome.text = _jogadorController.jogadorSelecionado!.nome;
     _tipoSelecionado = _jogadorController.jogadorSelecionado!.tipo;
     _qualidadeSelecionada = _jogadorController.jogadorSelecionado!.qualidade;
+    _qualidadeAnterior = _qualidadeSelecionada;
     _selectedChips[_qualidadeSelecionada - 1] = true;
-    super.initState();
+
+    // Configuração do controlador de animação
+    _controllerAnimacao = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    _animarQualidade();
   }
 
   @override
@@ -99,19 +113,14 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
                             ],
                             selected: <String>{_tipoSelecionado.descricao},
                             onSelectionChanged: (Set<String> novoValor) {
-                              setState(() {
-                                _tipoSelecionado = novoValor.first == 'linha' ? TipoJogador.linha : TipoJogador.goleiro;
-                              });
+                              setState(() => _tipoSelecionado = novoValor.first == 'linha' ? TipoJogador.linha : TipoJogador.goleiro);
                             },
                           ),
                           SizedBox(height: 10.s),
-                          SizedBox(
-                            height: 190.s,
-                            child: BoxCardJogador(
-                              nome: _ctrlNome.text,
-                              qualidade: _qualidadeSelecionada,
-                              tipoJogador: _tipoSelecionado,
-                            ),
+                          BoxCardJogadorAnimacao(
+                            nome: _ctrlNome.text,
+                            qualidadeAnimada: _qualidadeAnimada,
+                            tipoJogador: _tipoSelecionado,
                           ),
                         ],
                       ),
@@ -131,12 +140,14 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
                           selected: _selectedChips[index],
                           onSelected: (_) {
                             setState(() {
+                              _qualidadeAnterior = _qualidadeSelecionada;
                               if (!_selectedChips[index]) {
-                                ///Marca o chip selecionado e desmarcar todos os outros.
+                                // Marca o chip selecionado e desmarca os outros
                                 for (int i = 0; i < _selectedChips.length; i++) {
                                   _selectedChips[i] = i == index;
-                                  i == index ? setState(() => _qualidadeSelecionada = i + 1) : null;
+                                  if (i == index) _qualidadeSelecionada = i + 1;
                                 }
+                                _animarQualidade();
                               }
                             });
                           },
@@ -158,24 +169,29 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
       ),
     );
   }
+  
+  @override
+  void dispose() {
+    _controllerAnimacao.dispose();
+    _ctrlNome.dispose();
+    super.dispose();
+  }
 
   void _showConfirmarSaida({bool pop = false}) {
     final Jogador jogadorEditado = Jogador(nome: _ctrlNome.text, tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
-    if (jogadorEditado != _jogadorController.jogadorSelecionado! && !pop) {
-      showDialog(
-        context: context,
-        builder: (context) => BoxAlertDialog(
-          title: 'Tem certeza?',
-          content: const Text('Todas as alterações realizadas que não foram salvas serão desfeitas'),
-          actions: [
-            TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel(context, 'Cancelar')),
-            TextButton(onPressed: () => Get.offAllNamed(Routes.baseRoute), child: UIText.dialogConfirm('Confirmar'))
-          ],
-        ),
-      );
-    } else {
-      Get.back();
-    }
+    jogadorEditado != _jogadorController.jogadorSelecionado! && !pop
+      ? showDialog(
+          context: context,
+          builder: (context) => BoxAlertDialog(
+            title: 'Tem certeza?',
+            content: const Text('Todas as alterações realizadas que não foram salvas serão desfeitas'),
+            actions: [
+              TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel(context, 'Cancelar')),
+              TextButton(onPressed: () => Get.until((_) => Get.currentRoute == Routes.baseRoute), child: UIText.dialogConfirm('Confirmar'))
+            ],
+          ),
+        )
+      : Get.back();
   }
 
   Future<void> _showConfirmarExclusaoJogador() async {
@@ -192,7 +208,6 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
     );
   }
 
-  ///Método para excluir um jogador existente.
   Future<void> _excluirJogador() async {
     await _jogadorController.excluirJogador().then((mensagemErro) async {
       if (mounted) {
@@ -202,7 +217,6 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
     });
   }
 
-  ///Método para confirmar edição do jogador
   Future<void> _editarJogador() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       final Jogador jogadorEditado = Jogador(nome: _ctrlNome.text, tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
@@ -214,5 +228,26 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> {
         }
       });
     }
+  }
+
+  void _animarQualidade() {
+    _controllerAnimacao.reset();
+    _qualidadeAnimada = IntTween(
+      begin: int.parse(_getQualidadeJogador(_qualidadeAnterior)),
+      end: int.parse(_getQualidadeJogador(_qualidadeSelecionada)),
+    ).animate(_controllerAnimacao)
+      ..addListener(() => setState(() {}));
+    _controllerAnimacao.forward();
+  }
+
+  String _getQualidadeJogador(int qualidadeJogador) {
+    return switch (qualidadeJogador) {
+      1 => '-1',
+      2 => '10',
+      3 => '50',
+      4 => '80',
+      5 => '99',
+      _ => '...',
+    };
   }
 }
