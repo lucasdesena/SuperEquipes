@@ -9,6 +9,8 @@ TextStyle get textFieldStyle => GoogleFonts.roboto(fontSize: 14.s2, fontWeight: 
 TextStyle get fabStyle => GoogleFonts.roboto(fontSize: 14.s2, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
 TextStyle get dialogTitleStyle => GoogleFonts.poppins(fontSize: 15.s2, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
 TextStyle get dialogConfirmStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.w600, decoration: TextDecoration.none);
+TextStyle get inkTitleStyle => GoogleFonts.roboto(fontSize: 18.s2, fontWeight: FontWeight.w700, decoration: TextDecoration.none);
+TextStyle get inkSubTitleStyle => GoogleFonts.poppins(fontSize: 12.s2, fontWeight: FontWeight.w600, decoration: TextDecoration.none);
 
 TextStyle dialogCancelStyle(BuildContext context) => GoogleFonts.roboto( fontSize: 12.s2, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.error, decoration: TextDecoration.none);
 TextStyle nomeJogadorStyle(BuildContext context) => GoogleFonts.roboto(fontSize: 13.s2, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.customColor, decoration: TextDecoration.none);

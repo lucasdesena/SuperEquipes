@@ -16,6 +16,8 @@ class UIText extends StatelessWidget {
   UIText.fab(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = fabStyle;
   UIText.dialogTitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogTitleStyle;
   UIText.dialogConfirm(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogConfirmStyle;
+  UIText.inkTitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = inkTitleStyle;
+  UIText.inkSubTitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = inkSubTitleStyle;
 
   UIText.dialogCancel(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogCancelStyle(context!);
   UIText.nomeJogador (this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyle(context!);

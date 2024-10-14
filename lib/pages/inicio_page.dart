@@ -33,7 +33,6 @@ class _InicioPageState extends State<InicioPage> {
     return OrientationBuilder(builder: (orientationContext, orientation) {
       return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: UIText.title('Início'),
           actions: [
             IconButton(
@@ -47,14 +46,18 @@ class _InicioPageState extends State<InicioPage> {
         body: Obx(() {
             return GridView.builder(
               itemCount: _jogadorController.jogadores.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: getCrossAxisCount(tipo: 2)),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: getCrossAxisCount(tipo: 2),
+                crossAxisSpacing: 4, 
+                mainAxisSpacing: 4,
+              ),
               itemBuilder: (context, index) {
                 final Jogador jogador = _jogadorController.jogadores[index];
-                return  InkWell(
-                    onTap: () {
-                      _jogadorController.selecionarJogador(jogador);
-                      Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
-                    },
+                return InkWell(
+                  onTap: () {
+                    _jogadorController.selecionarJogador(jogador);
+                    Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
+                  },
                   child: BoxCardJogador(nome: jogador.nome, qualidade: jogador.qualidade, tipoJogador: jogador.tipo),
                 );
               },
@@ -73,14 +76,6 @@ class _InicioPageState extends State<InicioPage> {
   Future<void> _buscarJogadores() async {
     await _jogadorController.buscarJogadores().then((mensagemErro) {
       if (mensagemErro.isNotEmpty && mounted) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
-    });
-  }
-
-  ///Método para excluir um jogador existente.
-  Future<void> _excluirJogador() async {
-    await _jogadorController.excluirJogador().then((mensagemErro) async {
-      if (mensagemErro.isNotEmpty && mounted) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
-      await _buscarJogadores();
     });
   }
 }

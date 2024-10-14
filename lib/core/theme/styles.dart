@@ -364,7 +364,7 @@ class Styles {
     ///Necessário para remover o efeito de clique que ultrapassa o shape do bottomSheet.
     bottomSheetTheme: const BottomSheetThemeData(clipBehavior: Clip.antiAlias),
     ///Necessário para alterar o tamanho do icone de voltar do appBar.
-    appBarTheme: AppBarTheme(iconTheme: IconThemeData(size: 22.s2)),
+    appBarTheme: AppBarTheme(centerTitle: true, iconTheme: IconThemeData(size: 22.s2)),
     ///Necessário para limitar o conteúdo de dentro do card ao tamanho do mesmo.
     cardTheme: const CardTheme(clipBehavior: Clip.hardEdge),
   );

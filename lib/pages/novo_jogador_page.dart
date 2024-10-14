@@ -34,7 +34,6 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> {
       builder: (orientationContext, orientation) {
         return Scaffold(
           appBar: AppBar(
-            centerTitle: true,
             title: UIText.title('Novo Jogador'),
           ),
           body: UIPadding(

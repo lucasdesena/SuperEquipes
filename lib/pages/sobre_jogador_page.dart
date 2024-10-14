@@ -50,7 +50,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
     // Configuração do controlador de animação
     _controllerAnimacao = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 400),
     );
 
     _animarQualidade();
@@ -68,7 +68,6 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                 onPressed: () => _showConfirmarSaida(),
                 icon: const Icon(Icons.arrow_back),
               ),
-              centerTitle: true,
               title: UIText.title('Jogador'),
               actions: [
                 IconButton(
