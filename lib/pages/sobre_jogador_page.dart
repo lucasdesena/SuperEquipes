@@ -118,6 +118,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                           SizedBox(height: 10.s),
                           BoxCardJogadorAnimacao(
                             nome: _ctrlNome.text,
+                            qualidade: _qualidadeSelecionada,
                             qualidadeAnimada: _qualidadeAnimada,
                             tipoJogador: _tipoSelecionado,
                           ),

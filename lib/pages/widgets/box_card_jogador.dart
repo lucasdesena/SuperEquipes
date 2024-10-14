@@ -22,7 +22,7 @@ class BoxCardJogador extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          tipoJogador == TipoJogador.goleiro ? Image.asset('assets/images/card_goleiro.png') : Image.asset('assets/images/card_jogador.png'),
+          tipoJogador == TipoJogador.goleiro ? Image.asset('assets/images/card_goleiro_$qualidade.png') : Image.asset('assets/images/card_jogador_$qualidade.png'),
           Positioned(
             bottom: 69,
             child: UIText.nomeJogadorMinor(

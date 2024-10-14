@@ -76,8 +76,16 @@ class SuperEquipes extends StatelessWidget {
             }),
             ///Realizando o carregamento das imagens.
             builder: (context, child) {
-              precacheImage(const AssetImage('assets/images/card_goleiro.png'), context);
-              precacheImage(const AssetImage('assets/images/card_jogador.png'), context);
+              precacheImage(const AssetImage('assets/images/card_jogador_1.png'), context);
+              precacheImage(const AssetImage('assets/images/card_jogador_2.png'), context);
+              precacheImage(const AssetImage('assets/images/card_jogador_3.png'), context);
+              precacheImage(const AssetImage('assets/images/card_jogador_4.png'), context);
+              precacheImage(const AssetImage('assets/images/card_jogador_5.png'), context);
+              precacheImage(const AssetImage('assets/images/card_goleiro_1.png'), context);
+              precacheImage(const AssetImage('assets/images/card_goleiro_2.png'), context);
+              precacheImage(const AssetImage('assets/images/card_goleiro_3.png'), context);
+              precacheImage(const AssetImage('assets/images/card_goleiro_4.png'), context);
+              precacheImage(const AssetImage('assets/images/card_goleiro_5.png'), context);
 
               return child ?? const SizedBox.shrink();
             },

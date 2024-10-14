@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:super_equipes/base/widgets/box_dropdown.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
-import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_padding.dart';
@@ -235,12 +234,5 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
         );
       },
     );
-  }
-
-  ///Método para buscar os jogadores cadastrados.
-  Future<void> _buscarJogadores() async {
-    await _jogadorController.buscarJogadores().then((mensagemErro) {
-      if (mensagemErro.isNotEmpty && mounted) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
-    });
   }
 }

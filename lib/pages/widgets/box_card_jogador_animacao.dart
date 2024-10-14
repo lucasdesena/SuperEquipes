@@ -5,12 +5,14 @@ import 'package:super_equipes/models/enum/tipo_jogador.dart';
 
 class BoxCardJogadorAnimacao extends StatefulWidget {
   final String nome;
+  final int qualidade;
   final Animation<int> qualidadeAnimada;
   final TipoJogador tipoJogador;
 
   const BoxCardJogadorAnimacao({
     super.key,
     required this.nome,
+    required this.qualidade,
     required this.qualidadeAnimada,
     required this.tipoJogador,
   });
@@ -30,7 +32,14 @@ class _BoxCardJogadorAnimacaoState extends State<BoxCardJogadorAnimacao> with Si
         child: Stack(
           alignment: Alignment.center,
           children: [
-            widget.tipoJogador == TipoJogador.goleiro ? Image.asset('assets/images/card_goleiro.png') : Image.asset('assets/images/card_jogador.png'),
+            widget.tipoJogador == TipoJogador.goleiro ? FadeInImage(
+                placeholder: AssetImage('assets/images/card_goleiro_${widget.qualidade}.png'),
+                image: AssetImage('assets/images/card_goleiro_${widget.qualidade}.png'),
+              )
+            : FadeInImage(
+                placeholder: AssetImage('assets/images/card_jogador_${widget.qualidade}.png'),
+                image: AssetImage('assets/images/card_jogador_${widget.qualidade}.png'),
+              ),
             Positioned(
               bottom: 88.s,
               child: UIText.nomeJogador(
