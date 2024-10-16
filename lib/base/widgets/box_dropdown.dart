@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_helpers.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 
@@ -36,25 +37,27 @@ class BoxDropdown extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         DropdownButtonFormField<dynamic>(
+          iconSize: 22.s2,
+          itemHeight: kMinInteractiveDimension.s2c,
           onTap: onTap,
           isExpanded: true,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(20.s2),
             filled: true,
             focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error, width: 2.s),
+              borderSide: BorderSide(color: Get.theme.colorScheme.error, width: 2.s),
               borderRadius: BorderRadius.circular(15.s),
             ),
             errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error, width: 1.s),
+              borderSide: BorderSide(color: Get.theme.colorScheme.error, width: 1.s),
               borderRadius: BorderRadius.circular(15.s),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 2.s),
+              borderSide: BorderSide(color: Get.theme.colorScheme.secondary, width: 2.s),
               borderRadius: BorderRadius.circular(15.s),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.5.s),
+              borderSide: BorderSide(color: Get.theme.colorScheme.primary, width: 2.5.s),
               borderRadius: BorderRadius.circular(15.s),
             ),
           ),

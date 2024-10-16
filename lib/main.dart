@@ -36,7 +36,6 @@ void main() async{
     yield LicenseEntryWithLineBreaks(['google_fonts', 'poppins'], poppinsLicense);
     final robotoLicense  = await rootBundle.loadString('assets/google_fonts/Roboto/LICENSE.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts', 'roboto'], robotoLicense);
-
   });
 
   ///Injetando a denpedencia de forma global assim que o aplicativo inicializa.

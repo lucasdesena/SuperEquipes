@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 import 'package:super_equipes/base/widgets/box_dropdown.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
+import 'package:super_equipes/base/widgets/box_icon.dart';
+import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_padding.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
+import 'package:super_equipes/core/utils.dart';
 import 'package:super_equipes/models/enum/tipo_jogador.dart';
 import 'package:super_equipes/models/jogador.dart';
 import 'package:super_equipes/models/time.dart';
-import 'package:super_equipes/pages/widgets/box_card_jogador.dart';
+import 'package:super_equipes/base/widgets/box_card_jogador.dart';
 
 class SorteioPadraoPage extends StatefulWidget {
   const SorteioPadraoPage({super.key});
@@ -65,8 +69,9 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
               ),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
                     crossAxisCount: getCrossAxisCount(tipo: 2), 
                     crossAxisSpacing: 4, 
                     mainAxisSpacing: 4,
@@ -87,7 +92,7 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
                         });
                       },
                       child: Container(
-                        color: jogadoresMarcados[index] ? Theme.of(context).colorScheme.inversePrimary : null,
+                        color: jogadoresMarcados[index] ? Get.theme.colorScheme.tertiaryContainer : null,
                         child: BoxCardJogador(
                           nome: jogador.nome,
                           qualidade: jogador.qualidade,
@@ -101,9 +106,13 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
             ],
           ),
           floatingActionButton: BoxFloatingActionButton(
-            label: 'Sortear', 
+            label: 'Sortear times', 
             iconData: Icons.casino,
-            onPressed: () async => await _sortearTimes(), 
+            onPressed: () async {
+              if(jogadoresSelecionados.isEmpty) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Você precisa selecionar os jogadores.')); 
+              if(jogadoresSelecionados.length < jogadoresPorTime) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'A quantidade de jogadores selecionados não é suficiente.')); 
+              await _sortearTimes();
+            }, 
             extended: true,
           ),
         );
@@ -211,28 +220,60 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
 
     _ajustarGoleiros(times);
 
+    await _mostrarTimes(times);
+  }
+
+  Future<void> _mostrarTimes(List<Time> times) async {
     await showModalBottomSheet(
       isDismissible: false,
       context: context, 
       builder: (context) {
-        return ListView.separated(
-          padding: const EdgeInsets.only(top: 10),
-          separatorBuilder: (context, index) => const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          itemCount: times.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                ColoredBox(
-                  color: Colors.grey,
-                  child: Text('Time ${index + 1}', style: const TextStyle(fontSize: 18)),
-                ),
-                for (int i = 0; i < times[index].jogadores.length; i++)
-                  UIText.textField('${times[index].jogadores[i].nome} - ${times[index].jogadores[i].qualidade} - ${times[index].jogadores[i].tipo.descricao}'),
-              ],
-            );
-          },
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  UIText.title('Times'),
+                  IconButton(
+                    onPressed: () => Get.back(),
+                    icon: const BoxIcon(
+                      iconData: Icons.close,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) => const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                itemCount: times.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ColoredBox(
+                      color: Utils.corFundoCorpo(index),
+                      child: Column(
+                        children: [
+                          UIText.timeTitle('Time ${index + 1}'),
+                          Divider(
+                            color: Get.theme.colorScheme.inverseSurface, 
+                            height: 4,
+                          ),
+                          for (int i = 0; i < times[index].jogadores.length; i++)
+                            UIText.textField(times[index].jogadores[i].nome),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         );
       },
     );
-  }
+  } 
 }

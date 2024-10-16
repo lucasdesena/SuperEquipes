@@ -1,5 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:super_equipes/base/widgets/box_icon.dart';
+import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 import 'package:super_equipes/models/enum/tipo_snack_bar.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 
@@ -63,10 +66,9 @@ class BoxSnackBar extends StatelessWidget {
             ),
             Flexible(
               flex: 2,
-              child: Icon(
-                icone(),
+              child: BoxIcon(
+                iconData: icone(),
                 color: cor(context),
-                size: 23.s,
               ),
             ),
             Flexible(
@@ -79,7 +81,7 @@ class BoxSnackBar extends StatelessWidget {
               flex: 30,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.r),
-                child: Text(mensagem),
+                child: UIText.body(mensagem, maxLines: 4),
               ),
             ),
           ],
@@ -93,13 +95,13 @@ class BoxSnackBar extends StatelessWidget {
   Color cor(BuildContext context) {
     switch (tipo) {
       case TipoSnackBar.sucesso:
-        return Theme.of(context).colorScheme.primaryFixed;
+        return Get.theme.colorScheme.primaryFixed;
       case TipoSnackBar.informacao:
-        return Theme.of(context).colorScheme.secondary;
+        return Get.theme.colorScheme.secondary;
       case TipoSnackBar.aviso:
-        return Theme.of(context).colorScheme.tertiary;
+        return Get.theme.colorScheme.tertiary;
       case TipoSnackBar.erro:
-        return Theme.of(context).colorScheme.error;
+        return Get.theme.colorScheme.error;
     }
   }
 

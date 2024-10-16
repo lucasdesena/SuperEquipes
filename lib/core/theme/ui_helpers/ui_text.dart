@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:super_equipes/core/theme/fonts.dart';
 
 class UIText extends StatelessWidget {
-  final BuildContext? context;
   final String text;
   final TextStyle style;
   final TextOverflow? textOverflow;
   final int? maxLines;
   final TextAlign? textAlign; 
 
-  UIText.title(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = titleStyle;
-  UIText.subtitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = subtitleStyle;
-  UIText.body(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = bodyStyle;
-  UIText.textField(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = textFieldStyle;
-  UIText.fab(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = fabStyle;
-  UIText.dialogTitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogTitleStyle;
-  UIText.dialogConfirm(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogConfirmStyle;
-  UIText.inkTitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = inkTitleStyle;
-  UIText.inkSubTitle(this.text, {super.key, this.context, this.textOverflow, this.maxLines, this.textAlign}) : style = inkSubTitleStyle;
-
-  UIText.dialogCancel(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogCancelStyle(context!);
-  UIText.nomeJogador (this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyle(context!);
-  UIText.estatistica (this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyle(context!);
-  UIText.nomeJogadorMinor(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyleMinor(context!);
-  UIText.estatisticaMinor(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyleMinor(context!);
-  UIText.hint(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = hintStyle(context!);
-  UIText.error(this.context, this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = errorStyle(context!);
+  UIText.title(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = titleStyle;
+  UIText.subtitle(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = subtitleStyle;
+  UIText.body(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = bodyStyle;
+  UIText.textField(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = textFieldStyle;
+  UIText.fab(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = fabStyle;
+  UIText.inkTitle(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = inkTitleStyle;
+  UIText.inkSubTitle(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = inkSubTitleStyle;
+  UIText.timeTitle(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = timeTitleStyle;
+  UIText.nomeJogador (this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyle;
+  UIText.estatistica (this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyle;
+  UIText.nomeJogadorMinor(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = nomeJogadorStyleMinor;
+  UIText.estatisticaMinor(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = estatisticaStyleMinor;
+  UIText.hint(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = hintStyle;
+  UIText.error(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = errorStyle;
+  UIText.dialogTitle(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogTitleStyle;
+  UIText.dialogContent(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogContentStyle;
+  UIText.dialogConfirm(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogConfirmStyle;
+  UIText.dialogCancel(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogCancelStyle;
 
   @override
   Widget build(BuildContext context) {

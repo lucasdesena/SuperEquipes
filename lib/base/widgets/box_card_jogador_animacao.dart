@@ -26,7 +26,7 @@ class _BoxCardJogadorAnimacaoState extends State<BoxCardJogadorAnimacao> with Si
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250.s,
+      height: 250.s2,
       child: Padding(
         padding: const EdgeInsets.all(5),
         child: Stack(
@@ -41,38 +41,35 @@ class _BoxCardJogadorAnimacaoState extends State<BoxCardJogadorAnimacao> with Si
                 image: AssetImage('assets/images/card_jogador_${widget.qualidade}.png'),
               ),
             Positioned(
-              bottom: 88.s,
-              child: UIText.nomeJogador(
-                context,
-                widget.nome.length > 11 ? '${widget.nome.substring(0, 11)}...' : widget.nome,
-              ),
+              bottom: 88.s2,
+              child: UIText.nomeJogador(widget.nome.length > 14 ? widget.nome.substring(0, 14) : widget.nome),
             ),
             Positioned(
-              bottom: 35,
+              bottom: 32.s2,
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _estatisticaWidget(context, widget.qualidadeAnimada, 'VEL'),
+                      _estatisticaWidget(widget.qualidadeAnimada, 'VEL'),
                       SizedBox(width: 25.s * 0.5),
-                      _estatisticaWidget(context, widget.qualidadeAnimada, 'DRI'),
+                      _estatisticaWidget(widget.qualidadeAnimada, 'DRI'),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _estatisticaWidget(context, widget.qualidadeAnimada, 'CHU'),
+                      _estatisticaWidget(widget.qualidadeAnimada, 'CHU'),
                       SizedBox(width: 25.s * 0.5),
-                      _estatisticaWidget(context, widget.qualidadeAnimada, 'DEF'),
+                      _estatisticaWidget(widget.qualidadeAnimada, 'DEF'),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _estatisticaWidget(context, widget.qualidadeAnimada, 'PAS'),
+                      _estatisticaWidget(widget.qualidadeAnimada, 'PAS'),
                       SizedBox(width: 25.s * 0.5),
-                      _estatisticaWidget(context, widget.qualidadeAnimada, 'FIS'),
+                      _estatisticaWidget(widget.qualidadeAnimada, 'FIS'),
                     ],
                   ),
                 ],
@@ -84,18 +81,12 @@ class _BoxCardJogadorAnimacaoState extends State<BoxCardJogadorAnimacao> with Si
     );
   }
 
-  Widget _estatisticaWidget(BuildContext context, Animation<int> qualidadeJogador, String label) {
+  Widget _estatisticaWidget(Animation<int> qualidadeJogador, String label) {
     return Row(
       children: [
-        UIText.estatistica(
-          context,
-          qualidadeJogador.value.toString(),
-        ),
+        UIText.estatistica(qualidadeJogador.value.toString()),
         const SizedBox(width: 5),
-        UIText.estatistica(
-          context,
-          label,
-        ),
+        UIText.estatistica(label),
       ],
     );
   }

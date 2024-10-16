@@ -5,7 +5,7 @@ import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 class BoxAlertDialog extends StatelessWidget {
   final String? title;
   final Widget? image;
-  final Widget content;
+  final String content;
   final List<Widget>? actions;
 
   const BoxAlertDialog({
@@ -19,10 +19,9 @@ class BoxAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      // backgroundColor: ,
       contentPadding: const EdgeInsets.fromLTRB(30, 30, 30, 5),
       title: image ?? UIText.dialogTitle(title!),
-      content: content,
+      content: UIText.dialogContent(content, maxLines: 3),
       actions: actions ?? [],
     );
   }

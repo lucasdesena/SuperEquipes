@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 
@@ -24,10 +25,10 @@ class BoxInkButton extends StatelessWidget {
       child: Ink(
         width: double.infinity,
         padding: EdgeInsets.fromLTRB(
-          Theme.of(context).columnSize * 2,
-          Theme.of(context).rowSize / 1.3,
-          Theme.of(context).columnSize * 2,
-          Theme.of(context).rowSize / 1.3,
+          Get.theme.columnSize * 2,
+          Get.theme.rowSize / 1.3,
+          Get.theme.columnSize * 2,
+          Get.theme.rowSize / 1.3,
         ),
         color: color,
         child: Column(
@@ -35,7 +36,7 @@ class BoxInkButton extends StatelessWidget {
           children: [
             UIText.inkTitle(title),
             SizedBox(
-              height: Theme.of(context).rowSize / 3,
+              height: Get.theme.rowSize / 3,
             ),
             UIText.inkSubTitle(
               description,

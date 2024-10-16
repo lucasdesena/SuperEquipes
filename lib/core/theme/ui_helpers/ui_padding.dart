@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 
 ///Cria um padding para o widget, seguindo a regra do aplicativo
@@ -18,8 +19,8 @@ class UIPadding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: useHorizontalPadding ? (isPortrait ? Theme.of(context).columnSize : Theme.of(context).columnSize * 2) : 0,
-        vertical: useVerticalPadding ? Theme.of(context).rowSize * 0.7 : 0,
+        horizontal: useHorizontalPadding ? (isPortrait ? Get.theme.columnSize : Get.theme.columnSize * 2) : 0,
+        vertical: useVerticalPadding ? Get.theme.rowSize * 0.7 : 0,
       ),
       child: child,
     );

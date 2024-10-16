@@ -13,7 +13,7 @@ import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 import 'package:super_equipes/core/validators.dart';
 import 'package:super_equipes/models/enum/tipo_jogador.dart';
 import 'package:super_equipes/models/jogador.dart';
-import 'package:super_equipes/pages/widgets/box_card_jogador_animacao.dart';
+import 'package:super_equipes/base/widgets/box_card_jogador_animacao.dart';
 
 class SobreJogadorPage extends StatefulWidget {
   const SobreJogadorPage({super.key});
@@ -72,7 +72,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
               actions: [
                 IconButton(
                   onPressed: () async => await _showConfirmarExclusaoJogador(),
-                  icon: const BoxIcon(iconData: Icons.delete),
+                  icon: const BoxIcon(iconData: Icons.delete_outline_rounded),
                 ),
               ],
             ),
@@ -100,6 +100,10 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                           ),
                           SizedBox(height: 10.s),
                           SegmentedButton<String>(
+                            selectedIcon: BoxIcon(
+                              iconData: Icons.sports_soccer,
+                              size: 18.s5,
+                            ),
                             segments: <ButtonSegment<String>>[
                               ButtonSegment<String>(
                                 value: TipoJogador.linha.descricao,
@@ -136,6 +140,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                       separatorBuilder: (context, index) => const Padding(padding: EdgeInsets.symmetric(horizontal: 4)), 
                       itemBuilder: (context, index) {
                         return ChoiceChip(
+                          showCheckmark: false,
                           label: UIText.body(_qualidades[index]), 
                           selected: _selectedChips[index],
                           onSelected: (_) {
@@ -154,6 +159,10 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                         );
                       }, 
                     ),
+                  ),
+                  Visibility(
+                    visible: isMobile,
+                    child: const SizedBox(height: 80),
                   ),
                 ],
               ),
@@ -184,9 +193,9 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
           context: context,
           builder: (context) => BoxAlertDialog(
             title: 'Tem certeza?',
-            content: const Text('Todas as alterações realizadas que não foram salvas serão desfeitas'),
+            content: 'Todas as alterações realizadas que não foram salvas serão desfeitas',
             actions: [
-              TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel(context, 'Cancelar')),
+              TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel('Cancelar')),
               TextButton(onPressed: () => Get.until((_) => Get.currentRoute == Routes.baseRoute), child: UIText.dialogConfirm('Confirmar'))
             ],
           ),
@@ -199,9 +208,9 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
       context: context,
       builder: (context) => BoxAlertDialog(
         title: 'Excluir jogador',
-        content: const Text('Você quer excluir este jogador?'),
+        content: 'Você quer excluir este jogador?',
         actions: [
-          TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel(context, 'Cancelar')),
+          TextButton(onPressed: () => Get.back(), child: UIText.dialogCancel('Cancelar')),
           TextButton(onPressed: () async => await _excluirJogador(), child: UIText.dialogConfirm('Excluir'))
         ],
       ),

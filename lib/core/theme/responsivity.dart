@@ -22,18 +22,30 @@ extension SizerExt on num {
   /// s = scale (ajusta com base no fator de proporção para dispositivos tablets).
   double get s => this * fator(0);
 
+  double get sc => this * fator(0).clamp(1, 20);
+
   double get s1 => this * fator(1);
+
+  double get s1c => this * fator(1).clamp(1, 20);
 
   double get s2 => this * fator(2);
 
+  double get s2c => this * fator(2).clamp(1, 20);
+
   double get s3 => this * fator(3);
+
+  double get s3c => this * fator(3).clamp(1, 20);
 
   double get s4 => this * fator(4);
 
+  double get s4c => this * fator(4).clamp(1, 20);
+
   double get s5 => this * fator(5);
 
+  double get s5c => this * fator(5).clamp(1, 20);
+
   /// r = resize (ajusta com base na proporção da largura da tela).
-  double get r => this * (isPortrait ? Device.width / mockupWidth : Device.height / mockupHeight);
+  double get r => this * (isPortrait ? Device.width / mockupWidth : Device.height / mockupHeight).clamp(1, 20);
 }
 
 ///Retorna o dispositivo usado pelo usuário.
@@ -48,7 +60,7 @@ ScreenType get device {
 }
 
 ///Método que calcula o fator de escala baseado em um multiplicador.
-double fator(int multiplicador) {
+double fator(int multiplicador, {bool clamp = false}) {
   const int limiteBase = 500;
   double limite = limiteBase + (limiteBase * 0.1 * multiplicador);
 
@@ -56,7 +68,8 @@ double fator(int multiplicador) {
     double screenLimit = isPortrait ? Device.width : Device.height;
     return (screenLimit <= limite ? screenLimit : limite) / mockupWidth;
   }
-  return (isPortrait ? Device.width : Device.height) / mockupWidth;
+
+  return ((isPortrait ? Device.width : Device.height) / mockupWidth);
 }
 
 ///Método que calcula a quantidade de itens por linha baseado na orientação e tipo do dispositivo.

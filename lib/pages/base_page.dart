@@ -35,10 +35,10 @@ class _BasePageState extends State<BasePage> {
                 begin: Alignment.topLeft,
                 end: const Alignment(0.8, 1),
                 colors: [
-                  Theme.of(context).colorScheme.secondaryContainer,
-                  Theme.of(context).colorScheme.inversePrimary,
-                  Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context).colorScheme.tertiaryContainer,
+                  Get.theme.colorScheme.secondaryContainer,
+                  Get.theme.colorScheme.inversePrimary,
+                  Get.theme.colorScheme.primaryContainer,
+                  Get.theme.colorScheme.tertiaryContainer,
                 ],
               ).createShader(bounds);
             },

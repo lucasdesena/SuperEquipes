@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_helpers.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
@@ -118,30 +119,30 @@ class _BoxTextFieldState extends State<BoxTextField> {
             decoration: InputDecoration(
                 counterText: '',
                 focusedErrorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.error, width: 2.s),
+                  borderSide: BorderSide(color: Get.theme.colorScheme.error, width: 2.s),
                   borderRadius: BorderRadius.circular(15.s),
                 ),
                 errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.error, width: 1.s),
+                  borderSide: BorderSide(color: Get.theme.colorScheme.error, width: 1.s),
                   borderRadius: BorderRadius.all(
                     Radius.circular(15.s),
                   ),
                 ),
                 disabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1.s),
+                  borderSide: BorderSide(color: Get.theme.colorScheme.secondary, width: 1.s),
                   borderRadius: BorderRadius.all(
                     Radius.circular(15.s),
                   ),
                 ),
-                errorStyle: errorStyle(context),
+                errorStyle: errorStyle,
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 2.s),
+                  borderSide: BorderSide(color: Get.theme.colorScheme.secondary, width: 2.s),
                   borderRadius: BorderRadius.all(
                     Radius.circular(15.s),
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.5.s),
+                  borderSide: BorderSide(color: Get.theme.colorScheme.primary, width: 2.5.s),
                   borderRadius: BorderRadius.all(
                     Radius.circular(15.s),
                   ),
@@ -151,7 +152,7 @@ class _BoxTextFieldState extends State<BoxTextField> {
                         iconData: widget.prefixIcon,
                       )
                     : null,
-                prefixIconConstraints: BoxConstraints.tight(const Size(60, 25)),
+                prefixIconConstraints: BoxConstraints.tight(Size(60.s2, 25.s2)),
                 suffixIcon: widget.isPassword
                     ? GestureDetector(
                         child: BoxIcon(
@@ -174,9 +175,9 @@ class _BoxTextFieldState extends State<BoxTextField> {
                           iconData: widget.suffixicon,
                         ),
                       ),
-                suffixIconConstraints: widget.isPassword || widget.enableButtonCleanValue || widget.suffixicon != null ? BoxConstraints.tight(const Size(60, 25)) : BoxConstraints.tight(const Size(20, 0)),
+                suffixIconConstraints: widget.isPassword || widget.enableButtonCleanValue || widget.suffixicon != null ? BoxConstraints.tight(Size(60.s2, 25.s2)) : BoxConstraints.tight(const Size(20, 0)),
                 filled: true,
-              hintStyle: hintStyle(context),
+              hintStyle: hintStyle,
               hintText: widget.hintText,
               contentPadding: EdgeInsets.symmetric(horizontal: 10.s, vertical: 20.s),
             ),
