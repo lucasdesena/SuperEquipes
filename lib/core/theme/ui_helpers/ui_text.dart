@@ -26,6 +26,8 @@ class UIText extends StatelessWidget {
   UIText.dialogContent(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogContentStyle;
   UIText.dialogConfirm(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogConfirmStyle;
   UIText.dialogCancel(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogCancelStyle;
+  UIText.tituloImagem(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = tituloImagemStyle;
+  UIText.subTituloImagem(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = subTituloImagemStyle;
 
   @override
   Widget build(BuildContext context) {

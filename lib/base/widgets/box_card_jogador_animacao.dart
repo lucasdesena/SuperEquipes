@@ -33,11 +33,11 @@ class _BoxCardJogadorAnimacaoState extends State<BoxCardJogadorAnimacao> with Si
           alignment: Alignment.center,
           children: [
             widget.tipoJogador == TipoJogador.goleiro ? FadeInImage(
-                placeholder: AssetImage('assets/images/card_goleiro_${widget.qualidade}.png'),
+                placeholder: const AssetImage('assets/images/card_padrao.png'),
                 image: AssetImage('assets/images/card_goleiro_${widget.qualidade}.png'),
               )
             : FadeInImage(
-                placeholder: AssetImage('assets/images/card_jogador_${widget.qualidade}.png'),
+                placeholder: const AssetImage('assets/images/card_padrao.png'),
                 image: AssetImage('assets/images/card_jogador_${widget.qualidade}.png'),
               ),
             Positioned(

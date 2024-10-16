@@ -22,3 +22,5 @@ TextStyle get dialogTitleStyle => GoogleFonts.poppins(fontSize: 15.s2, fontWeigh
 TextStyle get dialogContentStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.normal, decoration: TextDecoration.none);
 TextStyle get dialogConfirmStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.w600, decoration: TextDecoration.none);
 TextStyle get dialogCancelStyle => GoogleFonts.roboto( fontSize: 12.s2, fontWeight: FontWeight.w600, color: Get.theme.colorScheme.error, decoration: TextDecoration.none);
+TextStyle get tituloImagemStyle => GoogleFonts.poppins(fontSize: 14.s2, fontWeight: FontWeight.normal, decoration: TextDecoration.none);
+TextStyle get subTituloImagemStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.w400, decoration: TextDecoration.none);

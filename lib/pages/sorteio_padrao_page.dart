@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:super_equipes/base/widgets/box_dropdown.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
+import 'package:super_equipes/base/widgets/box_lista_vazia.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
@@ -46,66 +47,70 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
           appBar: AppBar(
             title: UIText.title('Sorteio padrão'),
           ),
-          body: Column(
-            children: [
-              UIPadding(
-                useHorizontalPadding: true,
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.s),
-                    BoxDropdown(
-                      label: 'Jogadores por time:',
-                      onChanged: (value) => jogadoresPorTime = value,
-                      initialValue: 2,
-                      items: opcoesQtd.map(
-                        (quantidade) => DropdownMenuItem(
-                          value: quantidade,
-                          child: UIText.textField('$quantidade jogadores'),
-                        ),
-                      ).toList(),
-                    ),          
-                  ],
-                ),
-              ),
-              Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
-                    crossAxisCount: getCrossAxisCount(tipo: 2), 
-                    crossAxisSpacing: 4, 
-                    mainAxisSpacing: 4,
+          body: Visibility(
+            visible: _jogadorController.jogadores.isNotEmpty,
+            replacement: const BoxListaVazia(),
+            child: Column(
+              children: [
+                UIPadding(
+                  useHorizontalPadding: true,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10.s),
+                      BoxDropdown(
+                        label: 'Jogadores por time:',
+                        onChanged: (value) => jogadoresPorTime = value,
+                        initialValue: 2,
+                        items: opcoesQtd.map(
+                          (quantidade) => DropdownMenuItem(
+                            value: quantidade,
+                            child: UIText.textField('$quantidade jogadores'),
+                          ),
+                        ).toList(),
+                      ),          
+                    ],
                   ),
-                  itemCount: _jogadorController.jogadores.length,
-                  itemBuilder: (context, index) {
-                    final Jogador jogador = _jogadorController.jogadores[index];
-
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          jogadoresMarcados[index] = !jogadoresMarcados[index];
-                          if(jogadoresSelecionados.contains(jogador)){
-                            jogadoresSelecionados.remove(jogador);
-                          }else{
-                            jogadoresSelecionados.add(jogador);
-                          }
-                        });
-                      },
-                      child: Container(
-                        color: jogadoresMarcados[index] ? Get.theme.colorScheme.tertiaryContainer : null,
-                        child: BoxCardJogador(
-                          nome: jogador.nome,
-                          qualidade: jogador.qualidade,
-                          tipoJogador: jogador.tipo,
-                        ),
-                      ),
-                    );
-                  },
                 ),
-              ),
-            ],
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
+                      crossAxisCount: getCrossAxisCount(tipo: 2), 
+                      crossAxisSpacing: 4, 
+                      mainAxisSpacing: 4,
+                    ),
+                    itemCount: _jogadorController.jogadores.length,
+                    itemBuilder: (context, index) {
+                      final Jogador jogador = _jogadorController.jogadores[index];
+            
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            jogadoresMarcados[index] = !jogadoresMarcados[index];
+                            if(jogadoresSelecionados.contains(jogador)){
+                              jogadoresSelecionados.remove(jogador);
+                            }else{
+                              jogadoresSelecionados.add(jogador);
+                            }
+                          });
+                        },
+                        child: Container(
+                          color: jogadoresMarcados[index] ? Get.theme.colorScheme.tertiaryContainer : null,
+                          child: BoxCardJogador(
+                            nome: jogador.nome,
+                            qualidade: jogador.qualidade,
+                            tipoJogador: jogador.tipo,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-          floatingActionButton: BoxFloatingActionButton(
+          floatingActionButton: _jogadorController.jogadores.isEmpty ? null : BoxFloatingActionButton(
             label: 'Sortear times', 
             iconData: Icons.casino,
             onPressed: () async {
@@ -172,8 +177,9 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
       
       ///Se o time tem mais de um goleiro e há algum time sem goleiro.
       if (goleiros.length > 1 && temTimeSemGoleiro()) {
+        ///Pegamos o primeiro goleiro disponível.
         Time timeSemGoleiro = times.firstWhere((time) => !time.temGoleiro());
-        Jogador goleiroParaTrocar = goleiros.first; // Pegamos o primeiro goleiro disponível.
+        Jogador goleiroParaTrocar = goleiros.first; 
 
         ///Encontrar jogador de linha com qualidade próxima
         Jogador jogadorDeLinha = timeSemGoleiro.jogadores

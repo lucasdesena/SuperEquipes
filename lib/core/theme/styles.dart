@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 
@@ -367,6 +368,10 @@ class Styles {
     appBarTheme: AppBarTheme(centerTitle: true, iconTheme: IconThemeData(size: 22.s2)),
     ///Necessário para limitar o conteúdo de dentro do card ao tamanho do mesmo.
     cardTheme: const CardTheme(clipBehavior: Clip.hardEdge),
+    ///Necessário para mudar o icone de selecionado padrão do botão segmentado.
+    segmentedButtonTheme: SegmentedButtonThemeData(selectedIcon: BoxIcon(iconData: Icons.sports_soccer, size: 18.s5)),
+    ///Necessário para remover o icone de selecionado dos chips.
+    chipTheme: const ChipThemeData(showCheckmark: false),
   );
 }
 

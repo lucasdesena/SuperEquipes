@@ -24,11 +24,11 @@ class BoxCardJogador extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           tipoJogador == TipoJogador.goleiro ? FadeInImage(
-                placeholder: AssetImage('assets/images/card_goleiro_$qualidade.png'),
+                placeholder: const AssetImage('assets/images/card_padrao.png'),
                 image: AssetImage('assets/images/card_goleiro_$qualidade.png'),
               )
             : FadeInImage(
-                placeholder: AssetImage('assets/images/card_jogador_$qualidade.png'),
+                placeholder: const AssetImage('assets/images/card_padrao.png'),
                 image: AssetImage('assets/images/card_jogador_$qualidade.png'),
               ),
           Positioned(

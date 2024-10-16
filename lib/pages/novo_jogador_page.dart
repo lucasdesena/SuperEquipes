@@ -25,7 +25,7 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _ctrlNome = TextEditingController();
   final List<String> _qualidades = ['Peréba', 'Ruim', 'Normal', 'Bom', 'Craque'];
-  final List<bool> _selectedChips = [false, false, false, false, false];
+  final List<bool> _selectedChips = [true, false, false, false, false];
 
   late TipoJogador _tipoSelecionado;
   late int _qualidadeAnterior;
@@ -39,7 +39,7 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
     _qualidadeSelecionada = 1;
     _qualidadeAnterior = _qualidadeSelecionada;
     _tipoSelecionado = TipoJogador.linha;
-    // Configuração do controlador de animação
+    ///Configuração do controlador de animação
     _controllerAnimacao = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -129,7 +129,7 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
                           setState(() {
                             _qualidadeAnterior = _qualidadeSelecionada;
                             if (!_selectedChips[index]) {
-                              // Marca o chip selecionado e desmarca os outros
+                              ///Marca o chip selecionado e desmarca os outros.
                               for (int i = 0; i < _selectedChips.length; i++) {
                                 _selectedChips[i] = i == index;
                                 if (i == index) _qualidadeSelecionada = i + 1;

@@ -47,7 +47,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
     _qualidadeAnterior = _qualidadeSelecionada;
     _selectedChips[_qualidadeSelecionada - 1] = true;
 
-    // Configuração do controlador de animação
+    ///Configuração do controlador de animação.
     _controllerAnimacao = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -100,10 +100,6 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                           ),
                           SizedBox(height: 10.s),
                           SegmentedButton<String>(
-                            selectedIcon: BoxIcon(
-                              iconData: Icons.sports_soccer,
-                              size: 18.s5,
-                            ),
                             segments: <ButtonSegment<String>>[
                               ButtonSegment<String>(
                                 value: TipoJogador.linha.descricao,
@@ -140,14 +136,13 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                       separatorBuilder: (context, index) => const Padding(padding: EdgeInsets.symmetric(horizontal: 4)), 
                       itemBuilder: (context, index) {
                         return ChoiceChip(
-                          showCheckmark: false,
                           label: UIText.body(_qualidades[index]), 
                           selected: _selectedChips[index],
                           onSelected: (_) {
                             setState(() {
                               _qualidadeAnterior = _qualidadeSelecionada;
                               if (!_selectedChips[index]) {
-                                // Marca o chip selecionado e desmarca os outros
+                                ///Marca o chip selecionado e desmarca os outros.
                                 for (int i = 0; i < _selectedChips.length; i++) {
                                   _selectedChips[i] = i == index;
                                   if (i == index) _qualidadeSelecionada = i + 1;

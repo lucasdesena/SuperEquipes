@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
+import 'package:super_equipes/base/widgets/box_lista_vazia.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
@@ -34,6 +35,7 @@ class _InicioPageState extends State<InicioPage> {
     return OrientationBuilder(
       builder: (orientationContext, orientation) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             title: UIText.title('Início'),
             actions: [
@@ -46,25 +48,29 @@ class _InicioPageState extends State<InicioPage> {
             ],
           ),
           body: Obx(() {
-              return GridView.builder(
-                padding: EdgeInsets.only(bottom: 70.s2),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
-                  crossAxisCount: getCrossAxisCount(tipo: 2),
-                  crossAxisSpacing: 4, 
-                  mainAxisSpacing: 4,
+              return Visibility(
+                visible: _jogadorController.jogadores.isNotEmpty,
+                replacement: const BoxListaVazia(),
+                child: GridView.builder(
+                  padding: EdgeInsets.only(bottom: 70.s2),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
+                    crossAxisCount: getCrossAxisCount(tipo: 2),
+                    crossAxisSpacing: 4, 
+                    mainAxisSpacing: 4,
+                  ),
+                  itemCount: _jogadorController.jogadores.length,
+                  itemBuilder: (context, index) {
+                    final Jogador jogador = _jogadorController.jogadores[index];
+                    return InkWell(
+                      onTap: () {
+                        _jogadorController.selecionarJogador(jogador);
+                        Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
+                      },
+                      child: BoxCardJogador(nome: jogador.nome, qualidade: jogador.qualidade, tipoJogador: jogador.tipo),
+                    );
+                  },
                 ),
-                itemCount: _jogadorController.jogadores.length,
-                itemBuilder: (context, index) {
-                  final Jogador jogador = _jogadorController.jogadores[index];
-                  return InkWell(
-                    onTap: () {
-                      _jogadorController.selecionarJogador(jogador);
-                      Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
-                    },
-                    child: BoxCardJogador(nome: jogador.nome, qualidade: jogador.qualidade, tipoJogador: jogador.tipo),
-                  );
-                },
               );
             },
           ),
