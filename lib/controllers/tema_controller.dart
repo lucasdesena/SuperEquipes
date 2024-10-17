@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 ///Classe que controla o tema.
 class TemaController extends GetxController {
-  RxBool isModoEscuro = false.obs;
+  RxBool isModoEscuro = (WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark).obs;
 
   ///Checa qual tema está sendo utilizado.
   ThemeMode get tema => isModoEscuro.value ? ThemeMode.dark : ThemeMode.light;

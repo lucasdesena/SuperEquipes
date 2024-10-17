@@ -29,12 +29,14 @@ dev_dependencies:
 flutter_native_splash:
   color: "#f7fbf2"
   image: assets/splash/splash_screen.png
+  color_dark: "#101410"
   android: true
   ios: true
 
   android_12:
     color: "#f7fbf2"
     image: assets/splash/splash_screen_v12.png
+    color_dark: "#101410"
 
 flutter:
   uses-material-design: true
