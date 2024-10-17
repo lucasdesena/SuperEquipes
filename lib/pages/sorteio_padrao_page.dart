@@ -181,12 +181,12 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
         Time timeSemGoleiro = times.firstWhere((time) => !time.temGoleiro());
         Jogador goleiroParaTrocar = goleiros.first; 
 
-        ///Encontrar jogador de linha com qualidade próxima
+        ///Encontrar jogador de linha com qualidade próxima.
         Jogador jogadorDeLinha = timeSemGoleiro.jogadores
             .where((jogador) => jogador.tipo != TipoJogador.goleiro)
             .reduce((a, b) => (a.qualidade - goleiroParaTrocar.qualidade).abs() < (b.qualidade - goleiroParaTrocar.qualidade).abs() ? a : b);
 
-        ///Trocar o goleiro com o jogador de linha do time sem goleiro
+        ///Trocar o goleiro com o jogador de linha do time sem goleiro.
         time.jogadores.remove(goleiroParaTrocar);
         timeSemGoleiro.adicionarJogador(goleiroParaTrocar);
 
@@ -258,20 +258,37 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
                 separatorBuilder: (context, index) => const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                 itemCount: times.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: ColoredBox(
-                      color: Utils.corFundoCorpo(index),
-                      child: Column(
-                        children: [
-                          UIText.timeTitle('Time ${index + 1}'),
-                          Divider(
-                            color: Get.theme.colorScheme.inverseSurface, 
-                            height: 4,
-                          ),
-                          for (int i = 0; i < times[index].jogadores.length; i++)
-                            UIText.textField(times[index].jogadores[i].nome),
+                  return Container(
+                    margin: EdgeInsets.all(10.s),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: const Alignment(0.8, 1),
+                        colors: [
+                          Utils.corFundoCorpo(index),
+                          Utils.corFundoCorpo(index + 1),
                         ],
                       ),
+                    ),
+                    child: Column(
+                      children: [
+                        UIText.timeTitle('Time ${index + 1}'),
+                        Divider(
+                          color: Get.theme.colorScheme.inverseSurface, 
+                        ),
+                        for (int i = 0; i < times[index].jogadores.length; i++)
+                          ListTile(
+                            title: UIText.textField(times[index].jogadores[i].nome),
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: FadeInImage(
+                                placeholder: const AssetImage('assets/images/card_padrao.png'), 
+                                image: AssetImage('assets/images/card_${times[index].jogadores[i].tipo.descricao}_${times[index].jogadores[i].qualidade}.png'),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   );
                 },

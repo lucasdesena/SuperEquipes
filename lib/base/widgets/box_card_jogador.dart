@@ -23,14 +23,10 @@ class BoxCardJogador extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          tipoJogador == TipoJogador.goleiro ? FadeInImage(
-                placeholder: const AssetImage('assets/images/card_padrao.png'),
-                image: AssetImage('assets/images/card_goleiro_$qualidade.png'),
-              )
-            : FadeInImage(
-                placeholder: const AssetImage('assets/images/card_padrao.png'),
-                image: AssetImage('assets/images/card_jogador_$qualidade.png'),
-              ),
+          FadeInImage(
+            placeholder: const AssetImage('assets/images/card_padrao.png'),
+            image: AssetImage('assets/images/card_${tipoJogador.descricao}_$qualidade.png'),
+          ),
           Positioned(
             bottom: Device.orientation == Orientation.portrait ? 61.5.s5 : isMobile ? 68.s5 : 55.s5,
             child: Container(

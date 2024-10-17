@@ -32,14 +32,10 @@ class _BoxCardJogadorAnimacaoState extends State<BoxCardJogadorAnimacao> with Si
         child: Stack(
           alignment: Alignment.center,
           children: [
-            widget.tipoJogador == TipoJogador.goleiro ? FadeInImage(
-                placeholder: const AssetImage('assets/images/card_padrao.png'),
-                image: AssetImage('assets/images/card_goleiro_${widget.qualidade}.png'),
-              )
-            : FadeInImage(
-                placeholder: const AssetImage('assets/images/card_padrao.png'),
-                image: AssetImage('assets/images/card_jogador_${widget.qualidade}.png'),
-              ),
+            FadeInImage(
+              placeholder: const AssetImage('assets/images/card_padrao.png'),
+              image: AssetImage('assets/images/card_${widget.tipoJogador.descricao}_${widget.qualidade}.png'),
+            ),
             Positioned(
               bottom: 88.s2,
               child: UIText.nomeJogador(widget.nome.length > 14 ? widget.nome.substring(0, 14) : widget.nome),
