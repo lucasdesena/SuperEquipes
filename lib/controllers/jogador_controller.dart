@@ -15,6 +15,12 @@ class JogadorController extends GetxController {
   Jogador? _jogadorSelecionado;
   Jogador? get jogadorSelecionado => _jogadorSelecionado;
 
+  final RxBool _comecouSorteio = false.obs;
+  bool get comecouSorteio => _comecouSorteio.value;
+
+  void comecarSorteio() => _comecouSorteio.value = true;
+  void pararSorteio() => _comecouSorteio.value = false;
+
   ///Método para salvar no controller o jogador selecionado
   void selecionarJogador(Jogador jogador) => _jogadorSelecionado = jogador;
 

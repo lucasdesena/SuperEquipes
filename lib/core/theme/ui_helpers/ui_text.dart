@@ -9,6 +9,7 @@ class UIText extends StatelessWidget {
   final TextAlign? textAlign; 
 
   UIText.title(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = titleStyle;
+  UIText.title2(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = title2Style;
   UIText.subtitle(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = subtitleStyle;
   UIText.body(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = bodyStyle;
   UIText.textField(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = textFieldStyle;
@@ -28,6 +29,9 @@ class UIText extends StatelessWidget {
   UIText.dialogCancel(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = dialogCancelStyle;
   UIText.tituloImagem(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = tituloImagemStyle;
   UIText.subTituloImagem(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = subTituloImagemStyle;
+  UIText.numeroTime(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = numeroTimeStyle;
+  UIText.titleTimeSorteado(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = titleTimeSorteadoStyle;
+  UIText.buttonPrimary(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = buttonPrimaryStyle;
 
   @override
   Widget build(BuildContext context) {

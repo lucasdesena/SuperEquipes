@@ -4,7 +4,7 @@ import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/controllers/navegacao_controller.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_helpers.dart';
 import 'package:super_equipes/pages/inicio_page.dart';
-import 'package:super_equipes/pages/sorteio_page.dart';
+import 'package:super_equipes/pages/sorteio_menu_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -24,7 +24,7 @@ class _BasePageState extends State<BasePage> {
         controller: _navegacaoController.pageController,
         children: const [
           InicioPage(),
-          SorteioPage(),
+          SorteioMenuPage(),
         ],
       ),
       bottomNavigationBar: Obx(

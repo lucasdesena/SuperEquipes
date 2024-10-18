@@ -132,4 +132,7 @@ class BoxSnackBar extends StatelessWidget {
   }
 }
 
-void showSnackBar(BuildContext context, BoxSnackBar boxSnackBar) => ScaffoldMessenger.of(context).showSnackBar(boxSnackBar.getSnackBar(context));
+void showSnackBar(BuildContext context, BoxSnackBar boxSnackBar) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(boxSnackBar.getSnackBar(context));
+}

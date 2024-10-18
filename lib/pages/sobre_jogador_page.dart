@@ -223,7 +223,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
 
   Future<void> _editarJogador() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      final Jogador jogadorEditado = Jogador(nome: _ctrlNome.text, tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
+      final Jogador jogadorEditado = Jogador(nome: _ctrlNome.text.trim(), tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
       await _jogadorController.editarJogador(jogadorEditado).then((mensagemErro) {
         if (mounted) {
           if (mensagemErro.isNotEmpty) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));

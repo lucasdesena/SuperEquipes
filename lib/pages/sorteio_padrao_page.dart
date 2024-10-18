@@ -235,7 +235,6 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
       context: context, 
       builder: (context) {
         return Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),

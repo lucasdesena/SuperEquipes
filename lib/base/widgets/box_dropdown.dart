@@ -6,6 +6,7 @@ import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 
 ///Cria um dropdown customizado
 class BoxDropdown extends StatelessWidget {
+  final bool enabled;
   final Function(dynamic)? onChanged;
   final dynamic initialValue;
   final List<DropdownMenuItem<Object>> items;
@@ -15,6 +16,7 @@ class BoxDropdown extends StatelessWidget {
 
   const BoxDropdown({
     super.key,
+    this.enabled = true,
     required this.onChanged,
     required this.initialValue,
     required this.items,
@@ -61,7 +63,7 @@ class BoxDropdown extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.s),
             ),
           ),
-          onChanged: onChanged,
+          onChanged: enabled ? onChanged : null,
           value: initialValue,
           items: items,
           validator: validator,

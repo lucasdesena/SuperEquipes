@@ -102,7 +102,7 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
                           valueListenable: _ctrlNome,
                           builder: (context, textEditingValue, _) {
                             return BoxCardJogadorAnimacao(
-                              nome: textEditingValue.text,
+                              nome: textEditingValue.text.trim(),
                               qualidade: _qualidadeSelecionada,
                               qualidadeAnimada: _qualidadeAnimada,
                               tipoJogador: _tipoSelecionado,
@@ -191,7 +191,7 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
   ///Método para cadastrar um novo jogador.
   Future<void> _cadastrarJogador() async {
     if(_formKey.currentState != null && _formKey.currentState!.validate()){
-      Jogador jogador = Jogador(nome: _ctrlNome.text, tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
+      Jogador jogador = Jogador(nome: _ctrlNome.text.trim(), tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
 
       await _jogadorController.registrarJogador(jogador).then((mensagemErro){
         if(mounted){

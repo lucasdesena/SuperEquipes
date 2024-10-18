@@ -4,14 +4,14 @@ import 'package:super_equipes/base/widgets/box_ink_button.dart';
 import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
 
-class SorteioPage extends StatefulWidget {
-  const SorteioPage({super.key});
+class SorteioMenuPage extends StatefulWidget {
+  const SorteioMenuPage({super.key});
 
   @override
-  State<SorteioPage> createState() => _SorteioPageState();
+  State<SorteioMenuPage> createState() => _SorteioMenuPageState();
 }
 
-class _SorteioPageState extends State<SorteioPage> {
+class _SorteioMenuPageState extends State<SorteioMenuPage> {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
@@ -31,7 +31,7 @@ class _SorteioPageState extends State<SorteioPage> {
               BoxInkButton(
                 title: 'Sorteio um por um',
                 description: 'Aqui você sorteia seus times um jogador de cada vez, baseado nas cores escolhidas.',
-                onPressed: () {},
+                onPressed: () => Get.toNamed(Routes.sorteioUmPorUm),
                 color: Get.theme.colorScheme.secondaryContainer,
               ),
             ],

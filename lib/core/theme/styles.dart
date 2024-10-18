@@ -5,9 +5,9 @@ import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 
+final TemaController _temaController = Get.find<TemaController>();
 ///Classe de estilos e temas para aplicação.
 class Styles {
-  final TemaController _temaController = Get.find<TemaController>();
   
   ///Permite a customização de certas partes do sistema, enquanto tiver usando a aplicação.
   SystemUiOverlayStyle get systemUiOverlay => SystemUiOverlayStyle(
@@ -365,7 +365,7 @@ class Styles {
     ///Necessário para remover o efeito de clique que ultrapassa o shape do bottomSheet.
     bottomSheetTheme: const BottomSheetThemeData(clipBehavior: Clip.antiAlias),
     ///Necessário para alterar o tamanho do icone de voltar do appBar.
-    appBarTheme: AppBarTheme(centerTitle: true, iconTheme: IconThemeData(size: 22.s2)),
+    appBarTheme: AppBarTheme(centerTitle: true, iconTheme: IconThemeData(size: 22.s2), toolbarHeight: kToolbarHeight.s2),
     ///Necessário para limitar o conteúdo de dentro do card ao tamanho do mesmo.
     cardTheme: const CardTheme(clipBehavior: Clip.hardEdge),
     ///Necessário para mudar o icone de selecionado padrão do botão segmentado.
@@ -377,4 +377,22 @@ class Styles {
 
 extension ColorSchemeExtension on ColorScheme {
   Color get customColor => const Color(0xff493D0E);
+
+  List<Color> get coresTimes => _temaController.isModoEscuro.value
+  ? [
+      const Color(0xffFA5757),
+      const Color(0xff5E44FF),
+      const Color(0xff55D063),
+      const Color(0xffF2F25D),
+      const Color(0xffA85EBB),
+      const Color(0xff5FC1CC),
+    ]
+  : [
+    const Color(0xff850000),
+    const Color(0xff1F00D1),
+    const Color(0xff004708),
+    const Color(0xffD9C000),
+    const Color(0xff6A0085),
+    const Color(0xff00454D),
+  ];
 }

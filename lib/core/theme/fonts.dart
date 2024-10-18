@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_helpers.dart';
 
 TextStyle get titleStyle => GoogleFonts.poppins(fontSize: 20.s2, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
+TextStyle get title2Style => GoogleFonts.poppins(fontSize: 17.s2, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
 TextStyle get subtitleStyle => GoogleFonts.roboto(fontSize: 14.s2, fontWeight: FontWeight.normal, decoration: TextDecoration.none);
 TextStyle get bodyStyle => GoogleFonts.roboto(fontSize: 12.s4, fontWeight: FontWeight.w600, decoration: TextDecoration.none);
 TextStyle get textFieldStyle => GoogleFonts.roboto(fontSize: 14.s2, fontWeight: FontWeight.w400, decoration: TextDecoration.none);
@@ -24,3 +25,6 @@ TextStyle get dialogConfirmStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeig
 TextStyle get dialogCancelStyle => GoogleFonts.roboto( fontSize: 12.s2, fontWeight: FontWeight.w600, color: Get.theme.colorScheme.error, decoration: TextDecoration.none);
 TextStyle get tituloImagemStyle => GoogleFonts.poppins(fontSize: 14.s2, fontWeight: FontWeight.normal, decoration: TextDecoration.none);
 TextStyle get subTituloImagemStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.w400, decoration: TextDecoration.none);
+TextStyle get numeroTimeStyle => GoogleFonts.roboto(fontSize: 13.s2, fontWeight: FontWeight.w400, color: Get.theme.colorScheme.surface, decoration: TextDecoration.none);
+TextStyle get titleTimeSorteadoStyle => GoogleFonts.poppins(fontSize: 20.s2, fontWeight: FontWeight.w500, color: Get.theme.colorScheme.surface, decoration: TextDecoration.none);
+TextStyle get buttonPrimaryStyle => GoogleFonts.poppins(fontSize: 12.s2, fontWeight: FontWeight.w600, color: Get.theme.colorScheme.surface, decoration: TextDecoration.none);
