@@ -38,7 +38,6 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
     _jogadoresPorTime = opcoesQtd[0];
     _coresSelecionadasTimes = List.generate(_quantidadeTimes, (index) => Get.theme.colorScheme.coresTimes[index]);
     _timesFormados = List.generate(_quantidadeTimes, (index) => List<int>.empty(growable: true));
-
     super.initState();
   }
 
@@ -50,118 +49,116 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
           appBar: AppBar(
             title: UIText.title('Sorteio um por um'),
           ),
-          body: Column(
-            children: [
-              UIPadding(
-                useHorizontalPadding: true,
-                child: Obx(
-                  () => Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: BoxDropdown(
-                              enabled: !_jogadorController.comecouSorteio,
-                              label: 'Número de times:',
-                              initialValue: _quantidadeTimes,
-                              onChanged: (quantidade) {
-                                setState(() {
-                                  _quantidadeTimes = quantidade;
-                                  _coresSelecionadasTimes = List.generate(
-                                    _quantidadeTimes,
-                                    (index) => Get.theme.colorScheme.coresTimes[index],
-                                  );
-                                  _timesFormados = List.generate(
-                                    _quantidadeTimes,
-                                    (index) => List<int>.empty(growable: true));
-                                });
-                              },
-                              items: opcoesQtdTimes
-                                  .map(
-                                    (quantidade) => DropdownMenuItem(
-                                      value: quantidade,
-                                      child:
-                                          UIText.textField('$quantidade times'),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                          SizedBox(width: 10.s),
-                          Expanded(
-                            child: BoxDropdown(
-                              enabled: !_jogadorController.comecouSorteio,
-                              label: 'Jogadores por time:',
-                              onChanged: (value) => _jogadoresPorTime = value,
-                              initialValue: 2,
-                              items: opcoesQtd
-                                  .map(
-                                    (quantidade) => DropdownMenuItem(
-                                      value: quantidade,
-                                      child: UIText.textField(
-                                          '$quantidade jogadores'),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.s),
-                      UIText.subtitle('Cores dos times:'),
-                      SizedBox(height: 10.s),
-                      SizedBox(
-                        height: 35.s,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _quantidadeTimes,
-                          separatorBuilder: (context, index) => SizedBox(width: 10.s),
-                          itemBuilder: (context, numeroTime) {
-                            return GestureDetector(
-                              onTap: _jogadorController.comecouSorteio || _quantidadeTimes == 6 
-                                  ? null
-                                  : () => _exibirModalTrocaCores(numeroTime),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 35.s,
-                                width: 35.s,
-                                decoration: BoxDecoration(
-                                  color: _coresSelecionadasTimes[numeroTime],
-                                  shape: BoxShape.circle,
-                                ),
-                                child: UIText.numeroTime('${numeroTime + 1}'),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                UIPadding(
+                  useHorizontalPadding: true,
+                  child: Obx(
+                    () => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: BoxDropdown(
+                                enabled: !_jogadorController.comecouSorteio,
+                                label: 'Número de times:',
+                                initialValue: _quantidadeTimes,
+                                onChanged: (quantidade) {
+                                  setState(() {
+                                    _quantidadeTimes = quantidade;
+                                    _coresSelecionadasTimes = List.generate(
+                                      _quantidadeTimes,
+                                      (index) => Get.theme.colorScheme.coresTimes[index],
+                                    );
+                                    _timesFormados = List.generate(
+                                      _quantidadeTimes,
+                                      (index) => List<int>.empty(growable: true));
+                                  });
+                                },
+                                items: opcoesQtdTimes.map(
+                                  (quantidade) => DropdownMenuItem(
+                                    value: quantidade,
+                                    child:
+                                        UIText.textField('$quantidade times'),
+                                  ),
+                                ).toList(),
                               ),
-                            );
-                          },
+                            ),
+                            SizedBox(width: 10.s),
+                            Expanded(
+                              child: BoxDropdown(
+                                enabled: !_jogadorController.comecouSorteio,
+                                label: 'Jogadores por time:',
+                                onChanged: (value) => _jogadoresPorTime = value,
+                                initialValue: 2,
+                                items: opcoesQtd.map(
+                                  (quantidade) => DropdownMenuItem(
+                                    value: quantidade,
+                                    child: UIText.textField('$quantidade jogadores'),
+                                  ),
+                                ).toList(),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 10.s),
+                        UIText.subtitle('Cores dos times:'),
+                        SizedBox(height: 10.s),
+                        SizedBox(
+                          height: 35.s,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _quantidadeTimes,
+                            separatorBuilder: (context, index) => SizedBox(width: 10.s),
+                            itemBuilder: (context, numeroTime) {
+                              return GestureDetector(
+                                onTap: _jogadorController.comecouSorteio || _quantidadeTimes == 6 
+                                    ? null
+                                    : () => _exibirModalTrocaCores(numeroTime),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 35.s,
+                                  width: 35.s,
+                                  decoration: BoxDecoration(
+                                    color: _coresSelecionadasTimes[numeroTime],
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: UIText.numeroTime('${numeroTime + 1}'),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10.s),
-              Obx(
-                () {
-                  return Visibility(
-                    visible: _jogadorController.comecouSorteio,
-                    replacement: BoxPrimaryButton(
-                      onPressed: () => _jogadorController.comecarSorteio(),
-                      text: 'INICIAR',
-                    ),
-                    child: BoxPrimaryButton(
-                      onPressed: () {
-                        _jogadorController.pararSorteio();
-                        _timesFormados = List.generate(_quantidadeTimes,
-                            (index) => List.empty(growable: true));
-                      },
-                      text: 'PARAR',
-                    ),
-                  );
-                },
-              ),
-              _buildBody(),
-            ],
+                SizedBox(height: 10.s),
+                Obx(
+                  () {
+                    return Visibility(
+                      visible: _jogadorController.comecouSorteio,
+                      replacement: BoxPrimaryButton(
+                        onPressed: () => _jogadorController.comecarSorteio(),
+                        text: 'INICIAR',
+                      ),
+                      child: BoxPrimaryButton(
+                        onPressed: () {
+                          _jogadorController.encerrarSorteio();
+                          _timesFormados = List.generate(_quantidadeTimes, (index) => List.empty(growable: true));
+                        },
+                        text: 'ENCERRAR',
+                      ),
+                    );
+                  },
+                ),
+                _buildBody(),
+              ],
+            ),
           ),
         );
       },
@@ -170,43 +167,39 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
 
   ///Método que constrói o corpo da página para sortear o time de cada jogador.
   Widget _buildBody() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Obx(
-            () => Visibility(
-              visible: _jogadorController.comecouSorteio,
-              child: UIText.subtitle('Pressione para sortear uma cor:'),
-            ),
-          ),
-          SizedBox(height: 10.s),
-          GestureDetector(
-            onTap: () => _sortearTimes(),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Lottie.asset(
-                  'assets/lotties/time_lottie.json',
-                  width: 300.s2,
-                ),
-                Obx(() => Visibility(
-                    visible: _jogadorController.comecouSorteio &&  _numeroJogadoresSorteados != _jogadoresPorTime * _quantidadeTimes,
-                    child: Lottie.asset(
-                      'assets/lotties/tap_lottie.json',
-                      width: 120.s2,
-                    ),
-                  )),
-              ],
-            ),
-          ),
-          SizedBox(height: 10.s),
-          Obx(() => Visibility(
+    return Column(
+      children: [
+        Obx(() => Visibility(
             visible: _jogadorController.comecouSorteio,
-            child: UIText.subtitle('$_numeroJogadoresSorteados/${_jogadoresPorTime * _quantidadeTimes} jogadores sorteados'),
-          )),
-        ],
-      ),
+            child: UIText.subtitle('Pressione para sortear uma cor:'),
+          ),
+        ),
+        SizedBox(height: 10.s),
+        GestureDetector(
+          onTap: () => _sortearTimes(),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Lottie.asset(
+                'assets/lotties/time_lottie.json',
+                width: 300.s2,
+              ),
+              Obx(() => Visibility(
+                  visible: _jogadorController.comecouSorteio &&  _numeroJogadoresSorteados != _jogadoresPorTime * _quantidadeTimes,
+                  child: Lottie.asset(
+                    'assets/lotties/tap_lottie.json',
+                    width: 120.s2,
+                  ),
+                )),
+            ],
+          ),
+        ),
+        SizedBox(height: 10.s),
+        Obx(() => Visibility(
+          visible: _jogadorController.comecouSorteio,
+          child: UIText.subtitle('$_numeroJogadoresSorteados/${_jogadoresPorTime * _quantidadeTimes} jogadores sorteados'),
+        )),
+      ],
     );
   }
 
@@ -256,12 +249,10 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                                 ],
                               ),
                               SizedBox(height: 10.s),
-                              Expanded(
+                              Flexible(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: List.generate(
-                                      coresDisponiveis.length, (index) {
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: List.generate(coresDisponiveis.length, (index) {
                                     return InkWell(
                                       onTap: () => Navigator.pop(
                                           newContext, coresDisponiveis[index]),
@@ -314,19 +305,13 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
 
   ///Método para obter as cores disponíveis para seleção.
   List<Color> _getCoresDisponiveis(List<Color> coresSelecionadas) {
-    return Get.theme.colorScheme.coresTimes
-        .where((cor) => !coresSelecionadas.contains(cor))
-        .toList();
+    return Get.theme.colorScheme.coresTimes.where((cor) => !coresSelecionadas.contains(cor)).toList();
   }
 
   ///Método para sortear os times e apresentar no BottomSheet.
   void _sortearTimes() {
     if (_numeroJogadoresSorteados == _jogadoresPorTime * _quantidadeTimes) {
-      showSnackBar(
-          context,
-          const BoxSnackBar.informacao(
-              mensagem: 'Todos os jogadores já foram sorteados.'));
-      return;
+      return showSnackBar(context,const BoxSnackBar.informacao(mensagem: 'Todos os jogadores já foram sorteados.'));
     }
 
     ///Lista com os números dos times que ainda não estão cheios
@@ -334,8 +319,8 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
     final List<int> timesDisponiveis = List.generate(_quantidadeTimes, (index) => index).where((time) {
       return _timesFormados[time].length < _jogadoresPorTime;
     }).toList();
-    int timeSorteado =
-        timesDisponiveis[Random().nextInt(timesDisponiveis.length)];
+
+    int timeSorteado = timesDisponiveis[Random().nextInt(timesDisponiveis.length)];
 
     setState(() => _timesFormados[timeSorteado].add(0));
     _exibirTimeSorteado(timeSorteado);
