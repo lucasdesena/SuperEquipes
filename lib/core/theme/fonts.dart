@@ -27,4 +27,3 @@ TextStyle get tituloImagemStyle => GoogleFonts.poppins(fontSize: 14.s2, fontWeig
 TextStyle get subTituloImagemStyle => GoogleFonts.roboto(fontSize: 12.s2, fontWeight: FontWeight.w400, decoration: TextDecoration.none);
 TextStyle get numeroTimeStyle => GoogleFonts.roboto(fontSize: 13.s2, fontWeight: FontWeight.w400, color: Get.theme.colorScheme.surface, decoration: TextDecoration.none);
 TextStyle get titleTimeSorteadoStyle => GoogleFonts.poppins(fontSize: 20.s2, fontWeight: FontWeight.w500, color: Get.theme.colorScheme.surface, decoration: TextDecoration.none);
-TextStyle get buttonPrimaryStyle => GoogleFonts.poppins(fontSize: 12.s2, fontWeight: FontWeight.w600, color: Get.theme.colorScheme.surface, decoration: TextDecoration.none);

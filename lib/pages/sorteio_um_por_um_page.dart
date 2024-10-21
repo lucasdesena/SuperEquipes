@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:super_equipes/base/widgets/box_dropdown.dart';
+import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
-import 'package:super_equipes/base/widgets/box_primary_button.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
@@ -73,16 +73,13 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                                       _quantidadeTimes,
                                       (index) => Get.theme.colorScheme.coresTimes[index],
                                     );
-                                    _timesFormados = List.generate(
-                                      _quantidadeTimes,
-                                      (index) => List<int>.empty(growable: true));
+                                    _timesFormados = List.generate(_quantidadeTimes, (index) => List<int>.empty(growable: true));
                                   });
                                 },
                                 items: opcoesQtdTimes.map(
                                   (quantidade) => DropdownMenuItem(
                                     value: quantidade,
-                                    child:
-                                        UIText.textField('$quantidade times'),
+                                    child: UIText.textField('$quantidade times'),
                                   ),
                                 ).toList(),
                               ),
@@ -108,7 +105,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                         UIText.subtitle('Cores dos times:'),
                         SizedBox(height: 10.s),
                         SizedBox(
-                          height: 35.s,
+                          height: 35.s2,
                           child: ListView.separated(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -116,13 +113,11 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                             separatorBuilder: (context, index) => SizedBox(width: 10.s),
                             itemBuilder: (context, numeroTime) {
                               return GestureDetector(
-                                onTap: _jogadorController.comecouSorteio || _quantidadeTimes == 6 
-                                    ? null
-                                    : () => _exibirModalTrocaCores(numeroTime),
+                                onTap: _jogadorController.comecouSorteio || _quantidadeTimes == 6 ? null : () => _exibirModalTrocaCores(numeroTime),
                                 child: Container(
                                   alignment: Alignment.center,
-                                  height: 35.s,
-                                  width: 35.s,
+                                  height: 35.s2,
+                                  width: 35.s2,
                                   decoration: BoxDecoration(
                                     color: _coresSelecionadasTimes[numeroTime],
                                     shape: BoxShape.circle,
@@ -138,69 +133,68 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                   ),
                 ),
                 SizedBox(height: 10.s),
-                Obx(
-                  () {
-                    return Visibility(
-                      visible: _jogadorController.comecouSorteio,
-                      replacement: BoxPrimaryButton(
-                        onPressed: () => _jogadorController.comecarSorteio(),
-                        text: 'INICIAR',
-                      ),
-                      child: BoxPrimaryButton(
-                        onPressed: () {
-                          _jogadorController.encerrarSorteio();
-                          _timesFormados = List.generate(_quantidadeTimes, (index) => List.empty(growable: true));
-                        },
-                        text: 'ENCERRAR',
-                      ),
-                    );
-                  },
-                ),
                 _buildBody(),
               ],
             ),
           ),
+          floatingActionButton: Obx(() => BoxFloatingActionButton(
+            label: _jogadorController.comecouSorteio ? 'Encerrar' : 'Iniciar', 
+            iconData: _jogadorController.comecouSorteio ? Icons.stop : Icons.play_arrow,
+            onPressed: () {
+              if(_jogadorController.comecouSorteio){
+                _jogadorController.encerrarSorteio();
+                _timesFormados = List.generate(_quantidadeTimes, (index) => List.empty(growable: true));
+              }else{
+                 _jogadorController.comecarSorteio();
+              }
+            }, 
+            extended: true,
+          )),
         );
       },
     );
   }
 
+  @override
+  void dispose() {
+    _jogadorController.encerrarSorteio();
+    super.dispose();
+  }
+
   ///Método que constrói o corpo da página para sortear o time de cada jogador.
   Widget _buildBody() {
-    return Column(
-      children: [
-        Obx(() => Visibility(
-            visible: _jogadorController.comecouSorteio,
-            child: UIText.subtitle('Pressione para sortear uma cor:'),
-          ),
-        ),
-        SizedBox(height: 10.s),
-        GestureDetector(
-          onTap: () => _sortearTimes(),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Lottie.asset(
-                'assets/lotties/time_lottie.json',
-                width: 300.s2,
-              ),
-              Obx(() => Visibility(
-                  visible: _jogadorController.comecouSorteio &&  _numeroJogadoresSorteados != _jogadoresPorTime * _quantidadeTimes,
+    return Obx(() {
+      return Column(
+        children: [
+          SizedBox(height: 10.s),
+          GestureDetector(
+            onTap: _jogadorController.comecouSorteio? () => _sortearTimes() : null,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Lottie.asset(
+                  'assets/lotties/time_lottie.json',
+                  width: 300.s2,
+                ),
+                Visibility(
+                  visible: _jogadorController.comecouSorteio && _numeroJogadoresSorteados != _jogadoresPorTime * _quantidadeTimes,
                   child: Lottie.asset(
                     'assets/lotties/tap_lottie.json',
-                    width: 120.s2,
+                    width: 100.s2,
                   ),
-                )),
-            ],
+                ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 10.s),
-        Obx(() => Visibility(
-          visible: _jogadorController.comecouSorteio,
-          child: UIText.subtitle('$_numeroJogadoresSorteados/${_jogadoresPorTime * _quantidadeTimes} jogadores sorteados'),
-        )),
-      ],
-    );
+          SizedBox(height: 10.s),
+          Visibility(
+            visible: _jogadorController.comecouSorteio,
+            child: UIText.subtitle('$_numeroJogadoresSorteados/${_jogadoresPorTime * _quantidadeTimes} jogadores sorteados'),
+          ),
+          SizedBox(height: 10.s),
+        ],
+      );
+    });
   }
 
   ///Método para exibir o modal de troca de cores.
@@ -228,18 +222,18 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                         child: Container(
                           padding: EdgeInsets.all(20.s),
                           height: 170.s,
-                          width: 300.s,
+                          width: 300.s2,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.s),
-                              color: Get.theme.colorScheme.surface),
+                            borderRadius: BorderRadius.circular(20.s),
+                            color: Get.theme.colorScheme.surface,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   UIText.title2('Escolha a cor do time:'),
                                   IconButton(
@@ -254,11 +248,10 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: List.generate(coresDisponiveis.length, (index) {
                                     return InkWell(
-                                      onTap: () => Navigator.pop(
-                                          newContext, coresDisponiveis[index]),
+                                      onTap: () => Navigator.pop(newContext, coresDisponiveis[index]),
                                       child: Container(
-                                        height: 50.s,
-                                        width: 50.s,
+                                        height: 50.s2,
+                                        width: 50.s2,
                                         decoration: BoxDecoration(
                                           color: coresDisponiveis[index],
                                           shape: BoxShape.circle,
@@ -311,7 +304,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
   ///Método para sortear os times e apresentar no BottomSheet.
   void _sortearTimes() {
     if (_numeroJogadoresSorteados == _jogadoresPorTime * _quantidadeTimes) {
-      return showSnackBar(context,const BoxSnackBar.informacao(mensagem: 'Todos os jogadores já foram sorteados.'));
+      return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Todos os jogadores já foram sorteados.'));
     }
 
     ///Lista com os números dos times que ainda não estão cheios
@@ -347,8 +340,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                     padding: EdgeInsets.all(7.s),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                          color: Get.theme.colorScheme.surface, width: 2.s),
+                      border: Border.all(color: Get.theme.colorScheme.surface, width: 2.s),
                     ),
                     child: BoxIcon(
                       iconData: Icons.close,
@@ -365,8 +357,6 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
     );
   }
 
-  ///Getter que retorna a quantidade de jogadores já sorteados.
-  int get _numeroJogadoresSorteados {
-    return _timesFormados.fold<int>(0, (total, novo) => total + novo.length);
-  }
+  ///Necessário para retornar a quantidade de jogadores já sorteados.
+  int get _numeroJogadoresSorteados => _timesFormados.fold<int>(0, (total, novo) => total + novo.length);
 }

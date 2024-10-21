@@ -31,7 +31,6 @@ class UIText extends StatelessWidget {
   UIText.subTituloImagem(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = subTituloImagemStyle;
   UIText.numeroTime(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = numeroTimeStyle;
   UIText.titleTimeSorteado(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = titleTimeSorteadoStyle;
-  UIText.buttonPrimary(this.text, {super.key, this.textOverflow, this.maxLines, this.textAlign}) : style = buttonPrimaryStyle;
 
   @override
   Widget build(BuildContext context) {

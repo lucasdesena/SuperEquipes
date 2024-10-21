@@ -236,6 +236,7 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
       builder: (context) {
         return Column(
           children: [
+            SizedBox(height: 10.s2),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
