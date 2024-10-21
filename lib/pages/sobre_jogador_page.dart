@@ -116,11 +116,16 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
                             },
                           ),
                           SizedBox(height: 10.s),
-                          BoxCardJogadorAnimacao(
-                            nome: _ctrlNome.text,
-                            qualidade: _qualidadeSelecionada,
-                            qualidadeAnimada: _qualidadeAnimada,
-                            tipoJogador: _tipoSelecionado,
+                          ValueListenableBuilder(
+                            valueListenable: _ctrlNome,
+                            builder: (context, textEditingValue, _) {
+                              return BoxCardJogadorAnimacao(
+                                nome: _ctrlNome.text,
+                                qualidade: _qualidadeSelecionada,
+                                qualidadeAnimada: _qualidadeAnimada,
+                                tipoJogador: _tipoSelecionado,
+                              );
+                            }
                           ),
                         ],
                       ),

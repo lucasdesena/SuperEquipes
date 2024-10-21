@@ -5,6 +5,7 @@ import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_lista_vazia.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
+import 'package:super_equipes/base/widgets/box_text_field.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/controllers/tema_controller.dart';
 import 'package:super_equipes/core/routes.dart';
@@ -24,6 +25,8 @@ class _InicioPageState extends State<InicioPage> {
   final JogadorController _jogadorController = Get.find<JogadorController>();
   final TemaController _temaController = Get.find<TemaController>();
 
+  final TextEditingController _ctrlBuscarJogador = TextEditingController();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async => await _buscarJogadores());
@@ -37,19 +40,40 @@ class _InicioPageState extends State<InicioPage> {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            title: UIText.title('Início'),
+            title: Obx(() {
+              return _jogadorController.pesquisando
+                ? BoxTextField(
+                    autofocus: true,
+                    controller: _ctrlBuscarJogador,
+                    contentPadding: EdgeInsets.all(10.s),
+                    hintText: 'Nome do jogador...',
+                    onChanged: _jogadorController.pesquisarJogadores,
+                  )
+                : UIText.title('Início');
+            }),
+            leading: IconButton(
+              onPressed: () => _temaController.alterarTema(), 
+              icon: const BoxIcon(iconData: Icons.brightness_6_outlined)
+            ),
             actions: [
-              IconButton(
-                onPressed: () => _temaController.alterarTema(), 
-                icon: const BoxIcon(
-                  iconData: Icons.brightness_6_outlined,
-                )
+              Obx(
+                () {
+                  return IconButton(
+                    onPressed: () {
+                      if (_jogadorController.pesquisando) _ctrlBuscarJogador.clear();
+                      _jogadorController.handlerPesquisa();
+                    }, 
+                    icon: _jogadorController.pesquisando
+                      ? const BoxIcon(iconData: Icons.close)
+                      : const BoxIcon(iconData: Icons.search),
+                  );
+                },
               ),
             ],
           ),
           body: Obx(() {
               return Visibility(
-                visible: _jogadorController.jogadores.isNotEmpty,
+                visible: _jogadorController.jogadoresFiltrados.isNotEmpty,
                 replacement: const BoxListaVazia(),
                 child: GridView.builder(
                   padding: EdgeInsets.only(bottom: 70.s2),
@@ -59,9 +83,10 @@ class _InicioPageState extends State<InicioPage> {
                     crossAxisSpacing: 4, 
                     mainAxisSpacing: 4,
                   ),
-                  itemCount: _jogadorController.jogadores.length,
+                  itemCount: _jogadorController.jogadoresFiltrados.length,
                   itemBuilder: (context, index) {
-                    final Jogador jogador = _jogadorController.jogadores[index];
+                    final Jogador jogador = _jogadorController.jogadoresFiltrados[index];
+
                     return InkWell(
                       onTap: () {
                         _jogadorController.selecionarJogador(jogador);

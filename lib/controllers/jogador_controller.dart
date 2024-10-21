@@ -11,13 +11,34 @@ class JogadorController extends GetxController {
   bool get loading => _loading.value;
   
   final RxList<Jogador> _jogadores = <Jogador>[].obs;
-  List<Jogador> get jogadores => _jogadores;
 
   Jogador? _jogadorSelecionado;
   Jogador? get jogadorSelecionado => _jogadorSelecionado;
 
   final RxBool _comecouSorteio = false.obs;
   bool get comecouSorteio => _comecouSorteio.value;
+
+  //Propriedades de filtro
+  final RxBool _pesquisando = false.obs;
+  bool get pesquisando => _pesquisando.value;
+
+  final RxList<Jogador> _jogadoresFiltrados = <Jogador>[].obs;
+  List<Jogador> get jogadoresFiltrados => _jogadoresFiltrados;
+
+  ///Método para ativar ou desativar o filtro de pesquisa por nome do jogador.
+  void handlerPesquisa() {
+    _pesquisando.value = !_pesquisando.value;
+    if (!_pesquisando.value) _jogadoresFiltrados.assignAll(_jogadores);
+  }
+
+  ///Método para filtrar jogadores pelo nome.
+  void pesquisarJogadores(String busca) {
+    if(busca.isEmpty) return _jogadoresFiltrados.assignAll(_jogadores);
+    final List<Jogador> jogadoresFiltrados = _jogadores.where(
+        (jogador) => jogador.nome.toLowerCase().contains(busca.toLowerCase())
+      ).toList();
+    _jogadoresFiltrados.assignAll(jogadoresFiltrados);
+  }
 
   ///Método para iniciar o sorteio um por um.
   void comecarSorteio() => _comecouSorteio.value = true;
@@ -57,6 +78,7 @@ class JogadorController extends GetxController {
     switch (resultado) {
       case Sucesso(:List<Jogador> dados):
         _jogadores.assignAll(dados);
+        _jogadoresFiltrados.assignAll(dados);
         break;
       case Erro(:String mensagem):
         mensagemErro = mensagem;

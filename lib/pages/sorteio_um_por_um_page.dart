@@ -32,6 +32,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
   late List<Color> _coresSelecionadasTimes;
 
   late List<List<int>> _timesFormados;
+  final List<({int numeroTime, Color cor})> _sorteio = [];
 
   @override
   void initState() {
@@ -134,6 +135,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                 ),
                 SizedBox(height: 10.s),
                 _buildBody(),
+                SizedBox(height: 40.s),
               ],
             ),
           ),
@@ -145,7 +147,8 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
                 _jogadorController.encerrarSorteio();
                 _timesFormados = List.generate(_quantidadeTimes, (index) => List.empty(growable: true));
               }else{
-                 _jogadorController.comecarSorteio();
+                _sorteio.clear();
+                _jogadorController.comecarSorteio();
               }
             }, 
             extended: true,
@@ -187,11 +190,35 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
             ),
           ),
           SizedBox(height: 10.s),
+          UIText.subtitle('Último sorteio:'),
+          SizedBox(height: 10.s),
+          SizedBox(
+            height: 35.s2,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 10.s2),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: _sorteio.length,
+              separatorBuilder: (context, index) => SizedBox(width: 10.s),
+              itemBuilder: (context, index) {
+                return Container(
+                  alignment: Alignment.center,
+                  height: 35.s2,
+                  width: 35.s2,
+                  decoration: BoxDecoration(
+                    color: _sorteio[index].cor,
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: UIText.numeroTime('${_sorteio[index].numeroTime + 1}'),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 10.s),
           Visibility(
             visible: _jogadorController.comecouSorteio,
             child: UIText.subtitle('$_numeroJogadoresSorteados/${_jogadoresPorTime * _quantidadeTimes} jogadores sorteados'),
           ),
-          SizedBox(height: 10.s),
         ],
       );
     });
@@ -318,11 +345,12 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
     int timeSorteado = timesDisponiveis[Random().nextInt(timesDisponiveis.length)];
 
     setState(() => _timesFormados[timeSorteado].add(0));
+    _sorteio.add((numeroTime: timeSorteado, cor: _coresSelecionadasTimes[timeSorteado]));
     _exibirTimeSorteado(timeSorteado);
   }
 
-  Future<void> _exibirTimeSorteado(int time) async {
-    await showGeneralDialog(
+  void _exibirTimeSorteado(int time) {
+    showGeneralDialog(
       context: context,
       pageBuilder: (context, _, __) {
         return Scaffold(

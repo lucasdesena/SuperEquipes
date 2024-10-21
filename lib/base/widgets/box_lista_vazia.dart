@@ -15,7 +15,7 @@ class BoxListaVazia extends StatelessWidget{
             SizedBox(height: 15.s),
             UIText.tituloImagem('Lista de jogadores vazia'),
             SizedBox(height: 4.s),
-            UIText.subTituloImagem('Nenhum jogador cadastrado'),
+            UIText.subTituloImagem('Nenhum jogador encontrado'),
             SizedBox(height: 15.s),
           ],
         ),

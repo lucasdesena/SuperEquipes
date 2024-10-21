@@ -6,6 +6,7 @@ import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_lista_vazia.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
+import 'package:super_equipes/base/widgets/box_text_field.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
 import 'package:super_equipes/core/theme/responsivity.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_padding.dart';
@@ -25,17 +26,18 @@ class SorteioPadraoPage extends StatefulWidget {
 
 class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
   final JogadorController _jogadorController = Get.find<JogadorController>();
+  final TextEditingController _ctrlBuscarJogador = TextEditingController();
   
   final List<int> opcoesQtd = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-  late int jogadoresPorTime;
-  List<Jogador> jogadoresSelecionados = [];
-  late List<bool> jogadoresMarcados;
+  late int _jogadoresPorTime;
+  final List<Jogador> _jogadoresSelecionados = [];
+  late List<bool> _jogadoresMarcados;
 
   @override
   void initState() {
-    jogadoresPorTime = opcoesQtd[0];
-    jogadoresMarcados = List.generate(_jogadorController.jogadores.length, (_) => false);
+    _jogadoresPorTime = opcoesQtd[0];
+    _jogadoresMarcados = List.generate(_jogadorController.jogadoresFiltrados.length, (_) => false);
     super.initState();
   }
 
@@ -45,77 +47,109 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
       builder: (orientationContext, orientation) {
         return Scaffold(
           appBar: AppBar(
-            title: UIText.title('Sorteio padrão'),
-          ),
-          body: Visibility(
-            visible: _jogadorController.jogadores.isNotEmpty,
-            replacement: const BoxListaVazia(),
-            child: Column(
-              children: [
-                UIPadding(
-                  useHorizontalPadding: true,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10.s),
-                      BoxDropdown(
-                        label: 'Jogadores por time:',
-                        onChanged: (value) => jogadoresPorTime = value,
-                        initialValue: 2,
-                        items: opcoesQtd.map(
-                          (quantidade) => DropdownMenuItem(
-                            value: quantidade,
-                            child: UIText.textField('$quantidade jogadores'),
-                          ),
-                        ).toList(),
-                      ),          
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: GridView.builder(
-                    padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
-                      crossAxisCount: getCrossAxisCount(tipo: 2), 
-                      crossAxisSpacing: 4, 
-                      mainAxisSpacing: 4,
-                    ),
-                    itemCount: _jogadorController.jogadores.length,
-                    itemBuilder: (context, index) {
-                      final Jogador jogador = _jogadorController.jogadores[index];
-            
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            jogadoresMarcados[index] = !jogadoresMarcados[index];
-                            if(jogadoresSelecionados.contains(jogador)){
-                              jogadoresSelecionados.remove(jogador);
-                            }else{
-                              jogadoresSelecionados.add(jogador);
-                            }
-                          });
-                        },
-                        child: Container(
-                          color: jogadoresMarcados[index] ? Get.theme.colorScheme.tertiaryContainer : null,
-                          child: BoxCardJogador(
-                            nome: jogador.nome,
-                            qualidade: jogador.qualidade,
-                            tipoJogador: jogador.tipo,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+            title: Obx(
+              () {
+                return _jogadorController.pesquisando
+                  ? BoxTextField(
+                      autofocus: true,
+                      controller: _ctrlBuscarJogador,
+                      contentPadding: EdgeInsets.all(10.s),
+                      hintText: 'Nome do jogador...',
+                      onChanged: _jogadorController.pesquisarJogadores,
+                    )
+                  : UIText.title('Sorteio padrão'); 
+              },
             ),
+            actions: [
+              Obx(
+                () {
+                  return IconButton(
+                    onPressed: () {
+                      if (_jogadorController.pesquisando) _ctrlBuscarJogador.clear();
+                      _jogadorController.handlerPesquisa();
+                      _jogadorController.pesquisarJogadores(_ctrlBuscarJogador.text);
+                    },
+                    icon: _jogadorController.pesquisando
+                      ? const BoxIcon(iconData: Icons.close)
+                      : const BoxIcon(iconData: Icons.search),
+                  );
+                },
+              ),
+            ]
           ),
-          floatingActionButton: _jogadorController.jogadores.isEmpty ? null : BoxFloatingActionButton(
+          body: Obx(
+            () {          
+              return Visibility(
+              visible: _jogadorController.jogadoresFiltrados.isNotEmpty,
+              replacement: const BoxListaVazia(),
+              child: Column(
+                children: [
+                  UIPadding(
+                    useHorizontalPadding: true,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10.s),
+                        BoxDropdown(
+                          label: 'Jogadores por time:',
+                          onChanged: (value) => _jogadoresPorTime = value,
+                          initialValue: 2,
+                          items: opcoesQtd.map(
+                            (quantidade) => DropdownMenuItem(
+                              value: quantidade,
+                              child: UIText.textField('$quantidade jogadores'),
+                            ),
+                          ).toList(),
+                        ),          
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
+                        crossAxisCount: getCrossAxisCount(tipo: 2), 
+                        crossAxisSpacing: 4, 
+                        mainAxisSpacing: 4,
+                      ),
+                      itemCount: _jogadorController.jogadoresFiltrados.length,
+                      itemBuilder: (context, index) {
+                        final Jogador jogador = _jogadorController.jogadoresFiltrados[index];
+                          
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _jogadoresMarcados[index] = !_jogadoresMarcados[index];
+                              if(_jogadoresSelecionados.contains(jogador)){
+                                _jogadoresSelecionados.remove(jogador);
+                              }else{
+                                _jogadoresSelecionados.add(jogador);
+                              }
+                            });
+                          },
+                          child: Container(
+                            color: _jogadoresMarcados[index] ? Get.theme.colorScheme.tertiaryContainer : null,
+                            child: BoxCardJogador(
+                              nome: jogador.nome,
+                              qualidade: jogador.qualidade,
+                              tipoJogador: jogador.tipo,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+            },
+          ),
+          floatingActionButton: _jogadorController.jogadoresFiltrados.isEmpty ? null : BoxFloatingActionButton(
             label: 'Sortear times', 
             iconData: Icons.casino,
             onPressed: () async {
-              if(jogadoresSelecionados.isEmpty) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Você precisa selecionar os jogadores.')); 
-              if(jogadoresSelecionados.length < jogadoresPorTime) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'A quantidade de jogadores selecionados não é suficiente.')); 
+              if(_jogadoresSelecionados.isEmpty) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Você precisa selecionar os jogadores.')); 
+              if(_jogadoresSelecionados.length < _jogadoresPorTime) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'A quantidade de jogadores selecionados não é suficiente.')); 
               await _sortearTimes();
             }, 
             extended: true,
@@ -199,25 +233,25 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
   ///Método para sortear os times e apresentar no BottomSheet.
   Future<void> _sortearTimes() async {
     late int qtdTimes;
-    bool divisaoExata = jogadoresSelecionados.length % jogadoresPorTime == 0;
+    bool divisaoExata = _jogadoresSelecionados.length % _jogadoresPorTime == 0;
 
     if (divisaoExata) {
-      qtdTimes = jogadoresSelecionados.length ~/ jogadoresPorTime;
+      qtdTimes = _jogadoresSelecionados.length ~/ _jogadoresPorTime;
     } else {
-      qtdTimes = (jogadoresSelecionados.length ~/ jogadoresPorTime) + 1;
+      qtdTimes = (_jogadoresSelecionados.length ~/ _jogadoresPorTime) + 1;
     }
 
-    List<Jogador> jogadoresTime = List.from(jogadoresSelecionados);
+    List<Jogador> jogadoresTime = List.from(_jogadoresSelecionados);
     
     jogadoresTime.shuffle();
 
     List<Time> times = List.generate(qtdTimes, (index) => Time());
 
     for (var i = 0; i < (divisaoExata ? times.length : times.length - 1); i++) {
-      for (var j = 0; j < jogadoresPorTime; j++) {
+      for (var j = 0; j < _jogadoresPorTime; j++) {
         times[i].adicionarJogador(jogadoresTime[j]);
       }
-      for (var k = 0; k < jogadoresPorTime; k++) {
+      for (var k = 0; k < _jogadoresPorTime; k++) {
         jogadoresTime.remove(jogadoresTime[0]);
       }
     }

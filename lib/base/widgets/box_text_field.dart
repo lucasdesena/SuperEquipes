@@ -17,6 +17,7 @@ class BoxTextField extends StatefulWidget {
   final IconData? suffixicon;
   final Function(String)? onChanged;
   final double? height;
+  final EdgeInsets? contentPadding;
   final TextEditingController? controller;
   final String? Function(String?)? validatorFunction;
   final List<TextInputFormatter>? inputFormatters;
@@ -47,6 +48,7 @@ class BoxTextField extends StatefulWidget {
     this.suffixicon,
     this.onChanged,
     this.height,
+    this.contentPadding,
     this.controller,
     this.validatorFunction,
     this.inputFormatters,
@@ -179,7 +181,7 @@ class _BoxTextFieldState extends State<BoxTextField> {
                 filled: true,
               hintStyle: hintStyle,
               hintText: widget.hintText,
-              contentPadding: EdgeInsets.symmetric(horizontal: 10.s, vertical: 20.s),
+              contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(horizontal: 10.s, vertical: 20.s),
             ),
           ),
         ),
