@@ -89,6 +89,11 @@ class _InicioPageState extends State<InicioPage> {
 
                     return InkWell(
                       onTap: () {
+                        if (_jogadorController.pesquisando) {
+                          _ctrlBuscarJogador.clear();
+                          _jogadorController.handlerPesquisa();
+                        }
+
                         _jogadorController.selecionarJogador(jogador);
                         Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
                       },

@@ -183,6 +183,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
   void dispose() {
     _controllerAnimacao.dispose();
     _ctrlNome.dispose();
+
     super.dispose();
   }
 

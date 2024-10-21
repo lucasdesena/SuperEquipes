@@ -32,12 +32,10 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
 
   late int _jogadoresPorTime;
   final List<Jogador> _jogadoresSelecionados = [];
-  late List<bool> _jogadoresMarcados;
 
   @override
   void initState() {
     _jogadoresPorTime = opcoesQtd[0];
-    _jogadoresMarcados = List.generate(_jogadorController.jogadoresFiltrados.length, (_) => false);
     super.initState();
   }
 
@@ -119,16 +117,13 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              _jogadoresMarcados[index] = !_jogadoresMarcados[index];
-                              if(_jogadoresSelecionados.contains(jogador)){
-                                _jogadoresSelecionados.remove(jogador);
-                              }else{
-                                _jogadoresSelecionados.add(jogador);
-                              }
+                              _jogadoresSelecionados.contains(jogador)
+                                ? _jogadoresSelecionados.remove(jogador)
+                                : _jogadoresSelecionados.add(jogador);
                             });
                           },
                           child: Container(
-                            color: _jogadoresMarcados[index] ? Get.theme.colorScheme.tertiaryContainer : null,
+                            color: _jogadoresSelecionados.contains(jogador) ? Get.theme.colorScheme.tertiaryContainer : null,
                             child: BoxCardJogador(
                               nome: jogador.nome,
                               qualidade: jogador.qualidade,
@@ -157,6 +152,13 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    if (_jogadorController.pesquisando) _jogadorController.handlerPesquisa();
+    _ctrlBuscarJogador.clear();
+    super.dispose();
   }
 
   ///Método para equilibrar os times pela qualidade dos jogadores.
