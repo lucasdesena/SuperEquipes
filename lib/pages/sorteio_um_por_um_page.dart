@@ -304,6 +304,8 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
   ///Método para sortear os times e apresentar no BottomSheet.
   void _sortearTimes() {
     if (_numeroJogadoresSorteados == _jogadoresPorTime * _quantidadeTimes) {
+      _jogadorController.encerrarSorteio();
+      _timesFormados = List.generate(_quantidadeTimes, (index) => List.empty(growable: true));
       return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Todos os jogadores já foram sorteados.'));
     }
 
