@@ -113,6 +113,13 @@ class _InicioPageState extends State<InicioPage> {
     );
   }
 
+  @override
+  void dispose() {
+    _ctrlBuscarJogador.clear();
+    _jogadorController.handlerPesquisa();
+    super.dispose();
+  }
+
   ///Método para buscar os jogadores cadastrados.
   Future<void> _buscarJogadores() async {
     await _jogadorController.buscarJogadores().then((mensagemErro) {

@@ -20,21 +20,23 @@ class _SorteioMenuPageState extends State<SorteioMenuPage> {
           appBar: AppBar(
             title: UIText.title('Sorteio'),
           ),
-          body: Column(
-            children: [
-              BoxInkButton(
-                title: 'Sorteio padrão',
-                description: 'Aqui você sorteia seus times baseado nos jogadores selecionados com suas qualidades.',
-                onPressed: () => Get.toNamed(Routes.sorteioPadraoRoute),
-                color: Get.theme.colorScheme.inversePrimary,
-              ),
-              BoxInkButton(
-                title: 'Sorteio um por um',
-                description: 'Aqui você sorteia seus times um jogador de cada vez, baseado nas cores escolhidas.',
-                onPressed: () => Get.toNamed(Routes.sorteioUmPorUm),
-                color: Get.theme.colorScheme.secondaryContainer,
-              ),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                BoxInkButton(
+                  title: 'Sorteio padrão',
+                  description: 'Aqui você sorteia seus times baseado nos jogadores selecionados com suas qualidades.',
+                  onPressed: () => Get.toNamed(Routes.sorteioPadraoRoute),
+                  color: Get.theme.colorScheme.inversePrimary,
+                ),
+                BoxInkButton(
+                  title: 'Sorteio um por um',
+                  description: 'Aqui você sorteia seus times um jogador de cada vez, baseado nas cores escolhidas.',
+                  onPressed: () => Get.toNamed(Routes.sorteioUmPorUm),
+                  color: Get.theme.colorScheme.secondaryContainer,
+                ),
+              ],
+            ),
           ),
         );
       }

@@ -45,6 +45,12 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
       builder: (orientationContext, orientation) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => Get.back(),
+              icon: const BoxIcon(
+                iconData: Icons.arrow_back,
+              ),
+            ),
             title: Obx(
               () {
                 return _jogadorController.pesquisando

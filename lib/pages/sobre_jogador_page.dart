@@ -40,7 +40,6 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    
     _ctrlNome.text = _jogadorController.jogadorSelecionado!.nome;
     _tipoSelecionado = _jogadorController.jogadorSelecionado!.tipo;
     _qualidadeSelecionada = _jogadorController.jogadorSelecionado!.qualidade;
@@ -169,8 +168,8 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
             ),
             floatingActionButton: BoxFloatingActionButton(
               extended: true,
-              label: 'Editar jogador',
-              iconData: Icons.edit_outlined,
+              label: 'Salvar jogador',
+              iconData: Icons.save_outlined,
               onPressed: _editarJogador,
             ),
           );
@@ -183,7 +182,6 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
   void dispose() {
     _controllerAnimacao.dispose();
     _ctrlNome.dispose();
-
     super.dispose();
   }
 
@@ -230,13 +228,18 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
   Future<void> _editarJogador() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       final Jogador jogadorEditado = Jogador(nome: _ctrlNome.text.trim(), tipo: _tipoSelecionado, qualidade: _qualidadeSelecionada);
-      await _jogadorController.editarJogador(jogadorEditado).then((mensagemErro) {
-        if (mounted) {
-          if (mensagemErro.isNotEmpty) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
-          showSnackBar(context, const BoxSnackBar.successo(mensagem: 'Informações alteradas com sucesso!'));
-          Get.back();
-        }
-      });
+
+      if(jogadorEditado != _jogadorController.jogadorSelecionado!){
+        await _jogadorController.editarJogador(jogadorEditado).then((mensagemErro) {
+          if (mounted) {
+            if (mensagemErro.isNotEmpty) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
+            showSnackBar(context, const BoxSnackBar.successo(mensagem: 'Informações alteradas com sucesso!'));
+            Get.back();
+          }
+        });
+      }else{
+        Get.back();
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
+import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
 import 'package:super_equipes/base/widgets/box_text_field.dart';
 import 'package:super_equipes/controllers/jogador_controller.dart';
@@ -55,6 +56,12 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
       builder: (orientationContext, orientation) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => Get.back(),
+              icon: const BoxIcon(
+                iconData: Icons.arrow_back,
+              ),
+            ),
             title: UIText.title('Novo Jogador'),
           ),
           body: SingleChildScrollView(
