@@ -18,15 +18,27 @@ class JogadorController extends GetxController {
   final RxBool _comecouSorteio = false.obs;
   bool get comecouSorteio => _comecouSorteio.value;
 
-  //Propriedades de filtro
   final RxBool _pesquisando = false.obs;
   bool get pesquisando => _pesquisando.value;
 
   final RxList<Jogador> _jogadoresFiltrados = <Jogador>[].obs;
   List<Jogador> get jogadoresFiltrados => _jogadoresFiltrados;
 
+  final RxList<Jogador> _jogadoresEscolhidos = <Jogador>[].obs;
+  List<Jogador> get jogadoresEscolhidos => _jogadoresEscolhidos;
+
+  ///Método para selecionar um ou mais jogadores para o sorteio dos times.
+  void selecionarParaSorteio({Jogador? jogador, bool todos = false}){
+    todos ? _jogadoresEscolhidos.assignAll(_jogadoresFiltrados) : _jogadoresEscolhidos.add(jogador!);
+  }
+
+  ///Método para remover um ou mais jogadores do sorteio dos times.
+  void removerDoSorteio({Jogador? jogador, bool todos = false}){
+    todos ? _jogadoresEscolhidos.assignAll([]) : _jogadoresEscolhidos.remove(jogador);
+  }
+
   ///Método para ativar ou desativar o filtro de pesquisa por nome do jogador.
-  void handlerPesquisa() {
+  void gerenciarPesquisa() {
     _pesquisando.value = !_pesquisando.value;
     if (!_pesquisando.value) _jogadoresFiltrados.assignAll(_jogadores);
   }
@@ -34,9 +46,7 @@ class JogadorController extends GetxController {
   ///Método para filtrar jogadores pelo nome.
   void pesquisarJogadores(String busca) {
     if(busca.isEmpty) return _jogadoresFiltrados.assignAll(_jogadores);
-    final List<Jogador> jogadoresFiltrados = _jogadores.where(
-        (jogador) => jogador.nome.toLowerCase().contains(busca.toLowerCase())
-      ).toList();
+    final List<Jogador> jogadoresFiltrados = _jogadores.where((jogador) => jogador.nome.toLowerCase().contains(busca.toLowerCase())).toList();
     _jogadoresFiltrados.assignAll(jogadoresFiltrados);
   }
 
@@ -127,5 +137,4 @@ class JogadorController extends GetxController {
     _loading.value = false;
     return mensagemErro;
   }
-
 }

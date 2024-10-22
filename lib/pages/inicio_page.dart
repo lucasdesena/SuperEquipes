@@ -61,7 +61,7 @@ class _InicioPageState extends State<InicioPage> {
                   return IconButton(
                     onPressed: () {
                       if (_jogadorController.pesquisando) _ctrlBuscarJogador.clear();
-                      _jogadorController.handlerPesquisa();
+                      _jogadorController.gerenciarPesquisa();
                     }, 
                     icon: _jogadorController.pesquisando
                       ? const BoxIcon(iconData: Icons.close)
@@ -89,10 +89,7 @@ class _InicioPageState extends State<InicioPage> {
 
                     return InkWell(
                       onTap: () {
-                        if (_jogadorController.pesquisando) {
-                          _ctrlBuscarJogador.clear();
-                          _jogadorController.handlerPesquisa();
-                        }
+                        _pararPesquisa();
 
                         _jogadorController.selecionarJogador(jogador);
                         Get.toNamed(Routes.sobreJogadorRoute)?.then((_) async => await _buscarJogadores());
@@ -106,7 +103,10 @@ class _InicioPageState extends State<InicioPage> {
           ),
           floatingActionButton: BoxFloatingActionButton(
             iconData: Icons.add,
-            onPressed: () => Get.toNamed(Routes.novoJogadorRoute)?.then((_) async => await _buscarJogadores()),
+            onPressed: () {
+              _pararPesquisa();
+              Get.toNamed(Routes.novoJogadorRoute)?.then((_) async => await _buscarJogadores());
+            },
           ),
         );
       },
@@ -115,8 +115,7 @@ class _InicioPageState extends State<InicioPage> {
 
   @override
   void dispose() {
-    _ctrlBuscarJogador.clear();
-    _jogadorController.handlerPesquisa();
+    _pararPesquisa();
     super.dispose();
   }
 
@@ -125,5 +124,13 @@ class _InicioPageState extends State<InicioPage> {
     await _jogadorController.buscarJogadores().then((mensagemErro) {
       if (mensagemErro.isNotEmpty && mounted) return showSnackBar(context, BoxSnackBar.erro(mensagem: mensagemErro));
     });
+  }
+
+  ///Método para parar a pesquisa dos jogadores.
+  void _pararPesquisa(){
+    if(_jogadorController.pesquisando){
+      _ctrlBuscarJogador.clear();
+      _jogadorController.gerenciarPesquisa();
+    }
   }
 }

@@ -149,7 +149,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
             ),
           ),
           floatingActionButton: Obx(() => BoxFloatingActionButton(
-            label: _jogadorController.comecouSorteio ? 'Encerrar' : 'Iniciar', 
+            label: _jogadorController.comecouSorteio ? 'Encerrar sorteio' : 'Iniciar sorteio', 
             iconData: _jogadorController.comecouSorteio ? Icons.stop : Icons.play_arrow,
             onPressed: () {
               if(_jogadorController.comecouSorteio){

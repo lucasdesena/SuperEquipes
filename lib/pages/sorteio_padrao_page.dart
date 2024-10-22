@@ -31,7 +31,6 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
   final List<int> opcoesQtd = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   late int _jogadoresPorTime;
-  final List<Jogador> _jogadoresSelecionados = [];
 
   @override
   void initState() {
@@ -43,17 +42,17 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
   Widget build(BuildContext context) {
     return OrientationBuilder(
       builder: (orientationContext, orientation) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => Get.back(),
-              icon: const BoxIcon(
-                iconData: Icons.arrow_back,
-              ),
-            ),
-            title: Obx(
-              () {
-                return _jogadorController.pesquisando
+        return Obx(() {
+            return Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () => Get.back(),
+                  icon: const BoxIcon(
+                    iconData: Icons.arrow_back,
+                  ),
+                ),
+                title: _jogadorController.pesquisando
                   ? BoxTextField(
                       autofocus: true,
                       controller: _ctrlBuscarJogador,
@@ -61,100 +60,105 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
                       hintText: 'Nome do jogador...',
                       onChanged: _jogadorController.pesquisarJogadores,
                     )
-                  : UIText.title('Sorteio padrão'); 
-              },
-            ),
-            actions: [
-              Obx(
-                () {
-                  return IconButton(
+                  : UIText.title('Sorteio padrão'),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      _jogadorController.jogadoresEscolhidos.isEmpty 
+                        ? _jogadorController.selecionarParaSorteio(todos: true) 
+                        : _jogadorController.removerDoSorteio(todos: true);
+                    }, 
+                    icon: BoxIcon(
+                      iconData: _jogadorController.jogadoresEscolhidos.isEmpty
+                        ? Icons.check_box_outline_blank 
+                        : Icons.check_box,
+                    )
+                  ),
+                  IconButton(
                     onPressed: () {
                       if (_jogadorController.pesquisando) _ctrlBuscarJogador.clear();
-                      _jogadorController.handlerPesquisa();
+                      _jogadorController.gerenciarPesquisa();
                       _jogadorController.pesquisarJogadores(_ctrlBuscarJogador.text);
                     },
-                    icon: _jogadorController.pesquisando
-                      ? const BoxIcon(iconData: Icons.close)
-                      : const BoxIcon(iconData: Icons.search),
-                  );
-                },
-              ),
-            ]
-          ),
-          body: Obx(
-            () {          
-              return Visibility(
-              visible: _jogadorController.jogadoresFiltrados.isNotEmpty,
-              replacement: const BoxListaVazia(),
-              child: Column(
-                children: [
-                  UIPadding(
-                    useHorizontalPadding: true,
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10.s),
-                        BoxDropdown(
-                          label: 'Jogadores por time:',
-                          onChanged: (value) => _jogadoresPorTime = value,
-                          initialValue: 2,
-                          items: opcoesQtd.map(
-                            (quantidade) => DropdownMenuItem(
-                              value: quantidade,
-                              child: UIText.textField('$quantidade jogadores'),
-                            ),
-                          ).toList(),
-                        ),          
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: GridView.builder(
-                      padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
-                        crossAxisCount: getCrossAxisCount(tipo: 2), 
-                        crossAxisSpacing: 4, 
-                        mainAxisSpacing: 4,
-                      ),
-                      itemCount: _jogadorController.jogadoresFiltrados.length,
-                      itemBuilder: (context, index) {
-                        final Jogador jogador = _jogadorController.jogadoresFiltrados[index];
-                          
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _jogadoresSelecionados.contains(jogador)
-                                ? _jogadoresSelecionados.remove(jogador)
-                                : _jogadoresSelecionados.add(jogador);
-                            });
-                          },
-                          child: Container(
-                            color: _jogadoresSelecionados.contains(jogador) ? Get.theme.colorScheme.tertiaryContainer : null,
-                            child: BoxCardJogador(
-                              nome: jogador.nome,
-                              qualidade: jogador.qualidade,
-                              tipoJogador: jogador.tipo,
-                            ),
-                          ),
-                        );
-                      },
+                    icon: BoxIcon(
+                      iconData: _jogadorController.pesquisando
+                        ? Icons.close 
+                        : Icons.search
                     ),
                   ),
                 ],
               ),
+              body: Visibility(
+                  visible: _jogadorController.jogadoresFiltrados.isNotEmpty,
+                  replacement: const BoxListaVazia(),
+                  child: Column(
+                    children: [
+                      UIPadding(
+                        useHorizontalPadding: true,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 10.s),
+                            BoxDropdown(
+                              label: 'Jogadores por time:',
+                              onChanged: (value) => _jogadoresPorTime = value,
+                              initialValue: 2,
+                              items: opcoesQtd.map(
+                                (quantidade) => DropdownMenuItem(
+                                  value: quantidade,
+                                  child: UIText.textField('$quantidade jogadores'),
+                                ),
+                              ).toList(),
+                            ),          
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: GridView.builder(
+                          padding: EdgeInsets.only(top: 12.s2, bottom: 70.s2),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: Device.width < 600 && orientation == Orientation.landscape ? 0.74 : 1,
+                            crossAxisCount: getCrossAxisCount(tipo: 2), 
+                            crossAxisSpacing: 4, 
+                            mainAxisSpacing: 4,
+                          ),
+                          itemCount: _jogadorController.jogadoresFiltrados.length,
+                          itemBuilder: (context, index) {
+                            final Jogador jogador = _jogadorController.jogadoresFiltrados[index];
+                              
+                            return GestureDetector(
+                              onTap: () {
+                                  _jogadorController.jogadoresEscolhidos.contains(jogador) 
+                                  ? _jogadorController.removerDoSorteio(jogador: jogador)
+                                  : _jogadorController.selecionarParaSorteio(jogador: jogador);
+                              },
+                              child: Container(
+                                color: _jogadorController.jogadoresEscolhidos.contains(jogador) ? Get.theme.colorScheme.tertiaryContainer : null,
+                                child: BoxCardJogador(
+                                  nome: jogador.nome,
+                                  qualidade: jogador.qualidade,
+                                  tipoJogador: jogador.tipo,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                  
+              floatingActionButton: _jogadorController.jogadoresFiltrados.isEmpty ? null : BoxFloatingActionButton(
+                label: 'Sortear times', 
+                iconData: Icons.casino,
+                onPressed: () async {
+                  if(_jogadorController.jogadoresEscolhidos.isEmpty) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Você precisa selecionar os jogadores.')); 
+                  if(_jogadorController.jogadoresEscolhidos.length < _jogadoresPorTime) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'A quantidade de jogadores selecionados não é suficiente.')); 
+                  await _sortearTimes();
+                }, 
+                extended: true,
+              ),
             );
-            },
-          ),
-          floatingActionButton: _jogadorController.jogadoresFiltrados.isEmpty ? null : BoxFloatingActionButton(
-            label: 'Sortear times', 
-            iconData: Icons.casino,
-            onPressed: () async {
-              if(_jogadoresSelecionados.isEmpty) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'Você precisa selecionar os jogadores.')); 
-              if(_jogadoresSelecionados.length < _jogadoresPorTime) return showSnackBar(context, const BoxSnackBar.informacao(mensagem: 'A quantidade de jogadores selecionados não é suficiente.')); 
-              await _sortearTimes();
-            }, 
-            extended: true,
-          ),
+          }
         );
       },
     );
@@ -162,8 +166,11 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
 
   @override
   void dispose() {
-    if (_jogadorController.pesquisando) _jogadorController.handlerPesquisa();
-    _ctrlBuscarJogador.clear();
+    if (_jogadorController.pesquisando){
+      _jogadorController.gerenciarPesquisa();
+      _ctrlBuscarJogador.clear();
+    }
+    _jogadorController.removerDoSorteio(todos: true);
     super.dispose();
   }
 
@@ -241,15 +248,15 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
   ///Método para sortear os times e apresentar no BottomSheet.
   Future<void> _sortearTimes() async {
     late int qtdTimes;
-    bool divisaoExata = _jogadoresSelecionados.length % _jogadoresPorTime == 0;
+    bool divisaoExata = _jogadorController.jogadoresEscolhidos.length % _jogadoresPorTime == 0;
 
     if (divisaoExata) {
-      qtdTimes = _jogadoresSelecionados.length ~/ _jogadoresPorTime;
+      qtdTimes = _jogadorController.jogadoresEscolhidos.length ~/ _jogadoresPorTime;
     } else {
-      qtdTimes = (_jogadoresSelecionados.length ~/ _jogadoresPorTime) + 1;
+      qtdTimes = (_jogadorController.jogadoresEscolhidos.length ~/ _jogadoresPorTime) + 1;
     }
 
-    List<Jogador> jogadoresTime = List.from(_jogadoresSelecionados);
+    List<Jogador> jogadoresTime = List.from(_jogadorController.jogadoresEscolhidos);
     
     jogadoresTime.shuffle();
 
@@ -296,7 +303,6 @@ class _SorteioPadraoPageState extends State<SorteioPadraoPage> {
             ),
             Expanded(
               child: ListView.separated(
-                shrinkWrap: true,
                 separatorBuilder: (context, index) => const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                 itemCount: times.length,
                 itemBuilder: (context, index) {
