@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:super_equipes/base/widgets/box_app_bar.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
@@ -55,7 +56,7 @@ class _NovoJogadorPageState extends State<NovoJogadorPage> with SingleTickerProv
     return OrientationBuilder(
       builder: (orientationContext, orientation) {
         return Scaffold(
-          appBar: AppBar(
+          appBar: BoxAppBar(
             leading: IconButton(
               onPressed: () => Get.back(),
               icon: const BoxIcon(

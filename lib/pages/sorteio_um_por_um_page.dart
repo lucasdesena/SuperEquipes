@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:super_equipes/base/widgets/box_app_bar.dart';
 import 'package:super_equipes/base/widgets/box_dropdown.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
@@ -50,7 +51,7 @@ class _SorteioPadraoPageState extends State<SorteioUmPorUmPage> {
     return OrientationBuilder(
       builder: (orientationContext, orientation) {
         return Scaffold(
-          appBar: AppBar(
+          appBar: BoxAppBar(
              leading: IconButton(
               onPressed: () => Get.back(),
               icon: const BoxIcon(

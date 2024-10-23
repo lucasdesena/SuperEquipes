@@ -8,7 +8,7 @@ import 'package:super_equipes/core/theme/responsivity.dart';
 final TemaController _temaController = Get.find<TemaController>();
 ///Classe de estilos e temas para aplicação.
 class Styles {
-  
+
   ///Permite a customização de certas partes do sistema, enquanto tiver usando a aplicação.
   SystemUiOverlayStyle get systemUiOverlay => SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -364,8 +364,8 @@ class Styles {
     textButtonTheme: const TextButtonThemeData(style: ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap)),
     ///Necessário para remover o efeito de clique que ultrapassa o shape do bottomSheet.
     bottomSheetTheme: const BottomSheetThemeData(clipBehavior: Clip.antiAlias),
-    ///Necessário para alterar o tamanho do icone de voltar do appBar.
-    appBarTheme: AppBarTheme(centerTitle: true, iconTheme: IconThemeData(size: 22.s2), toolbarHeight: kToolbarHeight.s2),
+    ///Necessário para centralizar o titulo do appBar.
+    appBarTheme: const AppBarTheme(centerTitle: true),
     ///Necessário para limitar o conteúdo de dentro do card ao tamanho do mesmo.
     cardTheme: const CardTheme(clipBehavior: Clip.hardEdge),
     ///Necessário para mudar o icone de selecionado padrão do botão segmentado.

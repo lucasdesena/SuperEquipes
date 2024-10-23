@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:super_equipes/base/widgets/box_app_bar.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_lista_vazia.dart';
@@ -39,7 +40,11 @@ class _InicioPageState extends State<InicioPage> {
       builder: (orientationContext, orientation) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(
+          appBar: BoxAppBar(
+            leading: IconButton(
+              onPressed: () => _temaController.alterarTema(), 
+              icon: const BoxIcon(iconData: Icons.brightness_6_outlined)
+            ),
             title: Obx(() {
               return _jogadorController.pesquisando
                 ? BoxTextField(
@@ -51,10 +56,6 @@ class _InicioPageState extends State<InicioPage> {
                   )
                 : UIText.title('Início');
             }),
-            leading: IconButton(
-              onPressed: () => _temaController.alterarTema(), 
-              icon: const BoxIcon(iconData: Icons.brightness_6_outlined)
-            ),
             actions: [
               Obx(
                 () {
@@ -63,9 +64,11 @@ class _InicioPageState extends State<InicioPage> {
                       if (_jogadorController.pesquisando) _ctrlBuscarJogador.clear();
                       _jogadorController.gerenciarPesquisa();
                     }, 
-                    icon: _jogadorController.pesquisando
-                      ? const BoxIcon(iconData: Icons.close)
-                      : const BoxIcon(iconData: Icons.search),
+                    icon: BoxIcon(
+                      iconData: _jogadorController.pesquisando
+                        ? Icons.close 
+                        : Icons.search
+                    ),
                   );
                 },
               ),

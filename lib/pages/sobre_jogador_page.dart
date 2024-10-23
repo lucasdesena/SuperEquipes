@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:super_equipes/base/widgets/box_alert_dialog.dart';
+import 'package:super_equipes/base/widgets/box_app_bar.dart';
 import 'package:super_equipes/base/widgets/box_floating_action_button.dart';
 import 'package:super_equipes/base/widgets/box_icon.dart';
 import 'package:super_equipes/base/widgets/box_snack_bar.dart.dart';
@@ -62,7 +63,7 @@ class _SobreJogadorPageState extends State<SobreJogadorPage> with SingleTickerPr
       child: OrientationBuilder(
         builder: (orientationContext, orientation) {
           return Scaffold(
-            appBar: AppBar(
+            appBar: BoxAppBar(
               leading: IconButton(
                 onPressed: () => _showConfirmarSaida(),
                 icon: const Icon(Icons.arrow_back),

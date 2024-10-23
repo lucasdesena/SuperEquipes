@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:super_equipes/base/widgets/box_app_bar.dart';
 import 'package:super_equipes/base/widgets/box_ink_button.dart';
 import 'package:super_equipes/core/routes.dart';
 import 'package:super_equipes/core/theme/ui_helpers/ui_text.dart';
@@ -17,7 +18,7 @@ class _SorteioMenuPageState extends State<SorteioMenuPage> {
     return OrientationBuilder(
       builder: (orientationContext, orientation) {
         return Scaffold(
-          appBar: AppBar(
+          appBar: BoxAppBar(
             title: UIText.title('Sorteio'),
           ),
           body: SingleChildScrollView(
